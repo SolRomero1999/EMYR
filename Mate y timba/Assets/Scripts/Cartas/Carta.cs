@@ -154,9 +154,48 @@ public class Carta : MonoBehaviour
         transform.localPosition = Vector3.zero;
 
         Debug.Log(name + $" colocado en celda {celda.column},{celda.row}");
+        AplicarReglaEliminacion(celda);
     }
     #endregion
 
+    #region Regla de eliminaciòn
+    private void AplicarReglaEliminacion(Cell celda)
+    {
+        Tablero tablero = FindFirstObjectByType<Tablero>();
+        if (tablero == null) return;
+
+        int col = celda.column;
+        int fila = celda.row;
+
+        bool soyJugador = fila >= 0 && fila <= 3;  
+        bool soyIA = fila >= 4 && fila <= 7;      
+
+        int valorColocado = valor;
+        int filaInicioRival = soyJugador ? 4 : 0;
+        int filaFinRival = soyJugador ? 7 : 3;
+
+        for (int f = filaInicioRival; f <= filaFinRival; f++)
+        {
+            Transform t = tablero.ObtenerCelda(col, f);
+            if (t == null) continue;
+
+            if (!t.TryGetComponent<Cell>(out Cell rivalCelda)) continue;
+            if (rivalCelda.isOccupied == false) continue;
+
+            Carta otraCarta = t.GetComponentInChildren<Carta>();
+            if (otraCarta == null) continue;
+
+            if (otraCarta.valor == valorColocado)
+            {
+                Debug.Log($"ELIMINACIÓN: Carta {otraCarta.valor} en columna {col}");
+
+                rivalCelda.isOccupied = false;
+                Destroy(otraCarta.gameObject);
+            }
+        }
+    }
+    #endregion
+    
     #region Visual
     public void MostrarFrente()
     {
