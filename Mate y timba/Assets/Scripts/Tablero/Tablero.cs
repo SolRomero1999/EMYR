@@ -33,4 +33,22 @@ public class Tablero : MonoBehaviour
     {
         return fila >= 4 && fila <= 7;
     }
+
+    public Cell ObtenerCeldaLibreIA()
+    {
+        for (int fila = 4; fila <= 7; fila++)
+        {
+            for (int col = 0; col < columns; col++)
+            {
+                Transform t = celdas[col, fila];
+                if (t == null) continue;
+
+                Cell celda = t.GetComponent<Cell>();
+                if (celda != null && !celda.isOccupied)
+                    return celda;
+            }
+        }
+
+        return null; 
+    }
 }

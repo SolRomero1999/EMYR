@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     #region Variables públicas
     public Mazo mazo;
+    public Tablero tablero;
     public Transform manoJugador;
     public GameObject cartaPrefab;
     public Sprite dorsoCarta;
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
     #region Unity Lifecycle
     private void Start()
     {
+        tablero = FindObjectOfType<Tablero>();
         CrearMazo();
         mazo.Barajar();
         StartCoroutine(RepartirCartasConDelay(5)); 
@@ -128,6 +130,52 @@ public class GameController : MonoBehaviour
         ReordenarMano();
         robada.MostrarFrente();
         Debug.Log("Robaste: " + robada.name);
+
+        FindObjectOfType<TurnManager>().TerminarTurnoJugador();
+    }
+
+    public void RobarCartaIA()
+    {
+        if (manoIAActual.Count >= maxCartasMano) return;
+
+        Carta robada = mazo.RobarCarta();
+        if (robada == null) return;
+
+        robada.transform.SetParent(manoIA);
+        robada.enMano = false;
+        robada.MostrarDorso();
+
+        manoIAActual.Add(robada);
+
+        float spacing = 1.5f;
+        float totalWidth = (manoIAActual.Count - 1) * spacing;
+        float startX = -totalWidth / 2f;
+
+        for (int i = 0; i < manoIAActual.Count; i++)
+        {
+            float x = startX + i * spacing;
+            manoIAActual[i].SetPosicionOriginal(new Vector3(x, 0, 0));
+        }
+    }
+
+    public void IA_JugarCarta()
+    {
+        if (manoIAActual.Count == 0) return;
+
+        Carta carta = manoIAActual[Random.Range(0, manoIAActual.Count)];
+        Cell celda = tablero.ObtenerCeldaLibreIA();
+
+        if (celda == null)
+        {
+            Debug.Log("La IA no tiene celdas disponibles.");
+            return;
+        }
+
+        carta.ColocarEnCelda(celda);
+        carta.MostrarFrente();
+        manoIAActual.Remove(carta);
+
+        Debug.Log($"IA jugó carta {carta.valor} en [{celda.column},{celda.row}]");
     }
     #endregion
 
