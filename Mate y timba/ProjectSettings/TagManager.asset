@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Celda
+  - Mazo
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,9 @@ TagManager:
     locked: 0
   - name: Mano jugador
     uniqueID: 2260340139
+    locked: 0
+  - name: Mazo
+    uniqueID: 472224915
     locked: 0
   m_RenderingLayers:
   - Default

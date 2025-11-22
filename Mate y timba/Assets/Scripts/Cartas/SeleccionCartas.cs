@@ -36,11 +36,18 @@ public class SeleccionCartas : MonoBehaviour
             {
                 Cell celda = hit.collider.GetComponent<Cell>();
 
-                if (!celda.isOccupied)
-                {
-                    cartaSeleccionada.ColocarEnCelda(celda);
-                    cartaSeleccionada = null;
-                }
+        if (!celda.isOccupied)
+        {
+            if (celda.row >= 0 && celda.row <= 3)
+            {
+                cartaSeleccionada.ColocarEnCelda(celda);
+                cartaSeleccionada = null;
+            }
+            else
+            {
+                Debug.Log("No puedes colocar cartas en las filas del rival.");
+            }
+        }
             }
         }
     }
