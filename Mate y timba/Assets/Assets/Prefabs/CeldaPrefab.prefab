@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &652647680820846849
+--- !u!1 &8009436440850123576
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7924097334867633869}
-  - component: {fileID: 2794937021866276504}
-  - component: {fileID: 7556106635927239915}
-  - component: {fileID: 6456912716322573938}
-  m_Layer: 3
-  m_Name: Carta
-  m_TagString: Untagged
+  - component: {fileID: 7351287034212010018}
+  - component: {fileID: 771699468130653174}
+  - component: {fileID: 1271973707098475030}
+  - component: {fileID: 5236382733997584922}
+  m_Layer: 0
+  m_Name: CeldaPrefab
+  m_TagString: Celda
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7924097334867633869
+--- !u!4 &7351287034212010018
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652647680820846849}
+  m_GameObject: {fileID: 8009436440850123576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.22, y: -3.9, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: -2.44, y: -0.43, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.7, z: 0.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2794937021866276504
+--- !u!212 &771699468130653174
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652647680820846849}
+  m_GameObject: {fileID: 8009436440850123576}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -80,41 +80,25 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 500
-  m_Sprite: {fileID: 0}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.17, y: 6.25}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7556106635927239915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652647680820846849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be35a90b00981142b534dc1ffe7a126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Carta
-  valor: 0
-  palo: 
-  frente: {fileID: 0}
-  dorso: {fileID: 0}
---- !u!61 &6456912716322573938
+--- !u!61 &1271973707098475030
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652647680820846849}
+  m_GameObject: {fileID: 8009436440850123576}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -144,13 +128,33 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.17, y: 6.25}
-    newSize: {x: 4.17, y: 6.25}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.17, y: 6.25}
+  m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &5236382733997584922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009436440850123576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81a575fefc965e4fad8584094769d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cell
+  column: 0
+  row: 0
+  sr: {fileID: 771699468130653174}
+  baseSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  highlightSprite: {fileID: 0}
+  useTintOnHover: 1
+  hoverTint: {r: 0.8, g: 1, b: 0.8, a: 1}
+  isOccupied: 0

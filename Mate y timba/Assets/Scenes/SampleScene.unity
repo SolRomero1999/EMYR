@@ -609,6 +609,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1869162368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1869162370}
+  - component: {fileID: 1869162369}
+  m_Layer: 0
+  m_Name: ControlSeleccion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1869162369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869162368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591f3fbd4e6017a4e8ac21c8ee8c0b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SeleccionCartas
+--- !u!4 &1869162370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869162368}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1933257874
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +663,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1933257876}
   - component: {fileID: 1933257875}
+  - component: {fileID: 1933257878}
+  - component: {fileID: 1933257877}
   m_Layer: 0
   m_Name: Tablero
   m_TagString: Untagged
@@ -699,6 +745,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1933257877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933257874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ce9287d40c6424dbc693fe8975c431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tablero
+  columns: 4
+  rows: 8
+--- !u!114 &1933257878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933257874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38165fedf5e2d044a966e5cfe9f00f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardGenerator
+  cellPrefab: {fileID: 8009436440850123576, guid: 6ccf0e1a264c3fc49a15816da9f4d70e, type: 3}
+  columns: 4
+  rows: 8
+  spacingX: 0.25
+  spacingY: 0.12
+  boardParent: {fileID: 1933257876}
+  generateOnStart: 1
 --- !u!1 &1993455444
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,3 +880,4 @@ SceneRoots:
   - {fileID: 368984725}
   - {fileID: 990411669}
   - {fileID: 1283011277}
+  - {fileID: 1869162370}

@@ -52,6 +52,7 @@ public class GameController : MonoBehaviour
             if (robada != null)
             {
                 robada.transform.SetParent(manoJugador);
+                robada.enMano = true; 
                 
                 float x = startX + (i * spacing);
                 Vector3 nuevaPosicion = new Vector3(x, 0, 0);
