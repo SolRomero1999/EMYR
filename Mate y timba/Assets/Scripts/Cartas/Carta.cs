@@ -18,8 +18,8 @@ public class Carta : MonoBehaviour
     private Vector3 posicionOriginal;
 
     // Movimiento / Hover
-    private float alturaHover = 0.5f;
-    private float alturaSeleccion = 1.0f;
+    private float alturaHover = 0.3f;
+    private float alturaSeleccion = 0.4f;
     private float velocidadMovimiento = 15f;
     private bool estaEnHover = false;
     private bool hoverAnterior = false;

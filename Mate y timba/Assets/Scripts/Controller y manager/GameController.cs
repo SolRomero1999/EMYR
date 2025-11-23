@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 1.5f;
+        float spacing = 0.5f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 1.5f;
+        float spacing = 0.5f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
