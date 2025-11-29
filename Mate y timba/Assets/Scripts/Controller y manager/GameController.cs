@@ -197,7 +197,7 @@ public class GameController : MonoBehaviour
     #region Organización de la mano
     public void ReordenarMano()
     {
-        float spacing = 1.5f;
+        float spacing = 0.7f;
         float totalWidth = (manoActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
 

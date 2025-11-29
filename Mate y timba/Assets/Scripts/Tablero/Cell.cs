@@ -15,7 +15,7 @@ public class Cell : MonoBehaviour
     [HideInInspector] public bool isOccupied = false;
     [HideInInspector] public Carta carta = null; 
 
-    Color originalColor;
+    [HideInInspector] public Color originalColor;
     Sprite originalSprite;
 
     private void Awake()
@@ -30,5 +30,14 @@ public class Cell : MonoBehaviour
     {
         isOccupied = c != null;
         carta = c;
+        if (c != null)
+        c.celdaActual = this;
+    }
+
+    private void OnMouseDown()
+    {
+        UI_Items ui = FindFirstObjectByType<UI_Items>();
+        if (ui != null)
+            ui.SeleccionarCeldaRival(this);
     }
 }

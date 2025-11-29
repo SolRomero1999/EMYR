@@ -50,15 +50,14 @@ public class ScoreManager : MonoBehaviour
 
         for (int c = 0; c < 4; c++)
         {
-            Transform celda = tablero.ObtenerCelda(c, fila);
-            if (celda == null) continue;
+            Transform celdaT = tablero.celdas[c, fila];
+            if (celdaT == null) continue;
 
-            Carta carta = celda.GetComponentInChildren<Carta>();
-            if (carta != null)
-            {
-                valores[count] = carta.valor;
-                count++;
-            }
+            Cell cell = celdaT.GetComponent<Cell>();
+            if (cell == null || !cell.isOccupied || cell.carta == null) continue;
+
+            valores[count] = cell.carta.valor;
+            count++;
         }
 
         return AplicarReglasPuntaje(valores, count);
@@ -85,15 +84,14 @@ public class ScoreManager : MonoBehaviour
 
         for (int fila = filaInicio; fila <= filaFin; fila++)
         {
-            Transform celda = tablero.ObtenerCelda(col, fila);
-            if (celda == null) continue;
+            Transform celdaT = tablero.celdas[col, fila];
+            if (celdaT == null) continue;
 
-            Carta carta = celda.GetComponentInChildren<Carta>();
-            if (carta != null)
-            {
-                valores[count] = carta.valor;
-                count++;
-            }
+            Cell cell = celdaT.GetComponent<Cell>();
+            if (cell == null || !cell.isOccupied || cell.carta == null) continue;
+
+            valores[count] = cell.carta.valor;
+            count++;
         }
 
         return AplicarReglasPuntaje(valores, count);

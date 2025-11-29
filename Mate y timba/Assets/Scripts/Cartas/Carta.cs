@@ -11,6 +11,8 @@ public class Carta : MonoBehaviour
 
     [Header("Estado")]
     public bool enMano = false;
+    [HideInInspector] public Cell celdaActual;
+
     #endregion
 
     #region Variables Privadas
@@ -60,6 +62,9 @@ public class Carta : MonoBehaviour
     {
         if (enMano)
             HacerSeleccion();
+        UI_Items ui = FindFirstObjectByType<UI_Items>();
+        if (ui != null)
+            ui.SeleccionarCartaRival(this);
     }
     #endregion
 
@@ -206,7 +211,7 @@ public class Carta : MonoBehaviour
             {
                 Debug.Log($"ELIMINACIÓN: Carta {otraCarta.valor} en columna {col}");
 
-                rivalCelda.isOccupied = false;
+                rivalCelda.SetOccupied(null);
                 Destroy(otraCarta.gameObject);
 
                 ScoreManager sm = FindFirstObjectByType<ScoreManager>();
