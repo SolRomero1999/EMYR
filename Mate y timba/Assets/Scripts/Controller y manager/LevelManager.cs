@@ -7,10 +7,11 @@ public static class LevelManager
 
     public static bool reglasEliminacionActivas = true;
     public static bool dialogoPostTutorial = false;
+    public static bool tutorialDialogoVisto = false;
 
-    private const string gameSceneTuto = "Gameplay_Tutorial_Abuelo";
+    private const string gameSceneTuto = "0.Gameplay_Tutorial_Abuelo";
     private const string grandsonSceneName = "GrandsonScene";
-    private const string gameSceneName = "GameScene";
+    private const string gameSceneName = "1.GameScene";
 
     public static void StartLevelTuto()
     {

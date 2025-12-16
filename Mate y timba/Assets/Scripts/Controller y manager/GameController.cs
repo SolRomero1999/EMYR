@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
 
             c.frente = frentes[i];
             c.dorso = dorsoCarta;
-            c.valor = (i % 13) + 1;
+            c.valor = (i % 12) + 1;
             c.palo = "SinUsarPorAhora";
             c.MostrarDorso();
 
@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 0.7f;
+        float spacing = 1f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 0.7f;
+        float spacing = 1f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
