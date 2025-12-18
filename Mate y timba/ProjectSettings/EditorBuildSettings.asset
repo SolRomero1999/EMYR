@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/0.Gameplay_Tutorial_Abuelo.unity
     guid: 7d450cfae341f9d49bb494a2bb907daf
+  - enabled: 1
+    path: Assets/Scenes/1.GameScene.unity
+    guid: da486195e3aaec14690d5effc5e5fb59
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
