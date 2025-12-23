@@ -1,8 +1,13 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class IA_SegundoN : IA_Base
 {
+    private int valorTrioActivo = -1;
+    private int columnaTrioActivo = -1;
+
+
     #region Turno IA
     public override void RobarCartaIA()
     {
@@ -20,20 +25,35 @@ public class IA_SegundoN : IA_Base
 
     public override void JugarTurno()
     {
+        if (game.manoIAActual.Count == 0)
+            return;
+
+        if (valorTrioActivo != -1)
+        {
+            if (JugarCartaDeTrio())
+                return;
+
+            valorTrioActivo = -1;
+            columnaTrioActivo = -1;
+        }
+
         if (IntentarEliminarCartaJugador())
             return;
 
-        if (game.manoIAActual.Count == 0) return;
+        if (BuscarYActivarTrio())
+            return;
 
-        Carta carta = game.manoIAActual[Random.Range(0, game.manoIAActual.Count)];
-        Cell celda = tablero.ObtenerCeldaLibreIA();
-        if (celda == null) return;
+        Carta cartaNoDuplicada = ElegirCartaNoDuplicada();
+        if (cartaNoDuplicada != null)
+        {
+            JugarCarta(cartaNoDuplicada);
+            return;
+        }
 
-        carta.ColocarEnCelda(celda);
-        carta.MostrarFrente();
-        game.manoIAActual.Remove(carta);
+        Carta cartaRandom = game.manoIAActual[Random.Range(0, game.manoIAActual.Count)];
+        JugarCarta(cartaRandom);
 
-        Debug.Log($"[IA NIÑEZ] Jugó {carta.valor} al azar");
+        Debug.Log($"[IA NIÑEZ] Jugó {cartaRandom.valor} al azar");
     }
     #endregion
 
@@ -50,6 +70,7 @@ public class IA_SegundoN : IA_Base
                 Cell celdaJugador = tablero
                     .ObtenerCelda(col, fila)?
                     .GetComponent<Cell>();
+
                 if (celdaJugador == null || !celdaJugador.isOccupied)
                     continue;
 
@@ -57,10 +78,8 @@ public class IA_SegundoN : IA_Base
                 if (cartaJugador == null)
                     continue;
 
-                int valorJugador = cartaJugador.valor;
-
                 Carta cartaIA = game.manoIAActual
-                    .FirstOrDefault(c => c.valor == valorJugador);
+                    .FirstOrDefault(c => c.valor == cartaJugador.valor);
 
                 if (cartaIA == null)
                     continue;
@@ -73,12 +92,81 @@ public class IA_SegundoN : IA_Base
                 cartaIA.MostrarFrente();
                 game.manoIAActual.Remove(cartaIA);
 
-                Debug.Log($"[IA NIÑEZ] Eliminó {valorJugador} en columna {col}");
+                Debug.Log($"[IA NIÑEZ] Eliminó {cartaJugador.valor} en columna {col}");
                 return true;
             }
         }
 
         return false;
+    }
+    #endregion
+
+    #region Tríos
+    private bool BuscarYActivarTrio()
+    {
+        var grupo = game.manoIAActual
+            .GroupBy(c => c.valor)
+            .FirstOrDefault(g => g.Count() >= 3);
+
+        if (grupo == null)
+            return false;
+
+        valorTrioActivo = grupo.Key;
+
+        var columnasLibres = tablero.ObtenerCeldasLibresIA()
+            .Select(c => c.column)
+            .Distinct()
+            .ToList();
+
+        if (columnasLibres.Count > 0)
+            columnaTrioActivo = columnasLibres[Random.Range(0, columnasLibres.Count)];
+        else
+            columnaTrioActivo = -1;
+
+        Debug.Log($"[IA NIÑEZ] Inicia trío de {valorTrioActivo} en columna {columnaTrioActivo}");
+        return JugarCartaDeTrio();
+    }
+
+    private bool JugarCartaDeTrio()
+    {
+        Carta carta = game.manoIAActual
+            .FirstOrDefault(c => c.valor == valorTrioActivo);
+
+        if (carta == null)
+            return false;
+
+        Cell celda = columnaTrioActivo != -1
+            ? ObtenerCeldaLibreIAEnColumna(columnaTrioActivo)
+            : tablero.ObtenerCeldaLibreIA();
+
+        if (celda == null)
+            return false;
+
+        JugarCarta(carta);
+        Debug.Log($"[IA NIÑEZ] Bajando trío de {valorTrioActivo}");
+        return true;
+    }
+    #endregion
+
+    #region Selección de cartas
+    private Carta ElegirCartaNoDuplicada()
+    {
+        return game.manoIAActual
+            .FirstOrDefault(c =>
+                game.manoIAActual.Count(o => o.valor == c.valor) == 1);
+    }
+    #endregion
+
+    #region Helpers
+    private void JugarCarta(Carta carta)
+    {
+        Cell celda = tablero.ObtenerCeldaLibreIA();
+        if (celda == null)
+            return;
+
+        carta.ColocarEnCelda(celda);
+        carta.MostrarFrente();
+        game.manoIAActual.Remove(carta);
     }
 
     private Cell ObtenerCeldaLibreIAEnColumna(int columna)
@@ -100,4 +188,3 @@ public class IA_SegundoN : IA_Base
     }
     #endregion
 }
-
