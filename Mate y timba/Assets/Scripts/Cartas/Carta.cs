@@ -178,6 +178,39 @@ public class Carta : MonoBehaviour
             Debug.Log($"Puntajes actualizados inmediatamente para {name} (valor: {valor})");
         }
     }
+
+    private void DetectarTrioJugador(Cell celda)
+    {
+        Tablero tablero = FindFirstObjectByType<Tablero>();
+        if (tablero == null) return;
+
+        if (!tablero.EsFilaJugador(celda.row))
+            return;
+
+        int valorActual = valor;
+        int coincidencias = 0;
+
+        for (int c = 0; c < tablero.columns; c++)
+        {
+            Cell otra = tablero.ObtenerCelda(c, celda.row)?.GetComponent<Cell>();
+            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
+                coincidencias++;
+        }
+
+        for (int f = 0; f < tablero.filasJugador; f++)
+        {
+            Cell otra = tablero.ObtenerCelda(celda.column, f)?.GetComponent<Cell>();
+            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
+                coincidencias++;
+        }
+
+        if (coincidencias >= 3)
+        {
+            GameController gc = FindFirstObjectByType<GameController>();
+            if (gc != null && gc.ia != null)
+                gc.ia.OnTrioJugadorDetectado();
+        }
+    }
     #endregion
 
     #region Regla de eliminaciòn
@@ -212,6 +245,15 @@ public class Carta : MonoBehaviour
             if (otraCarta.valor == valorColocado)
             {
                 Debug.Log($"ELIMINACIÓN: {otraCarta.valor} en columna {col}");
+
+                if (soyJugador)
+                {
+                    GameController gc = FindFirstObjectByType<GameController>();
+                    if (gc != null && gc.ia != null)
+                    {
+                        gc.ia.OnCartaEliminadaPorJugador();
+                    }
+                }
 
                 rivalCelda.SetOccupied(null);
                 Destroy(otraCarta.gameObject);

@@ -1,12 +1,9 @@
 using UnityEngine;
 using System.Collections;
-using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
     public GameController game;
-    public GameObject panelResultado;
-    public TextMeshProUGUI mensajeFinal;
     public float delayIA = 1f;
 
     private bool turnoJugador = true;
@@ -15,10 +12,6 @@ public class TurnManager : MonoBehaviour
     #region Inicio
     private void Start()
     {
-        if (panelResultado != null)
-            panelResultado.SetActive(false);
-
-        mensajeFinal.gameObject.SetActive(false);
         StartCoroutine(IniciarTurnos());
     }
 
@@ -33,12 +26,12 @@ public class TurnManager : MonoBehaviour
     private void IniciarTurnoJugador()
     {
         turnoJugador = true;
-        FindFirstObjectByType<GameController>().jugadorYaRobo = false;
+        game.jugadorYaRobo = false;
     }
 
     public void TerminarTurnoJugador()
     {
-        if (!turnoJugador) return;
+        if (!turnoJugador || partidaTerminada) return;
 
         turnoJugador = false;
         VerificarFinDePartida();
@@ -47,6 +40,8 @@ public class TurnManager : MonoBehaviour
 
     public void ForzarFinTurnoJugador()
     {
+        if (partidaTerminada) return;
+
         turnoJugador = false;
         StartCoroutine(TurnoIA());
     }
@@ -57,7 +52,9 @@ public class TurnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayIA);
 
-        if (game.manoIAActual.Count < 5)
+        if (partidaTerminada) yield break;
+
+        if (game.manoIAActual.Count < game.maxCartasMano)
         {
             game.ia.RobarCartaIA();
             yield return new WaitForSeconds(0.5f);
@@ -76,6 +73,8 @@ public class TurnManager : MonoBehaviour
     #region Fin de Partida
     public void VerificarFinDePartida()
     {
+        if (partidaTerminada) return;
+
         bool jugadorTieneCeldas = game.tablero.HayCeldasDisponiblesJugador();
         bool iaTieneCeldas = game.tablero.HayCeldasDisponiblesIA();
         bool mazoVacio = game.mazo.cartas.Count == 0;
@@ -97,59 +96,41 @@ public class TurnManager : MonoBehaviour
         int puntosJugador = int.Parse(sm.puntajeTotalJugador.text);
         int puntosIA = int.Parse(sm.puntajeTotalIA.text);
 
-        panelResultado.SetActive(true);
-        mensajeFinal.gameObject.SetActive(true);
-
         bool jugadorGana = puntosJugador > puntosIA;
 
         if (LevelManager.CurrentLevel == 0)
         {
             if (jugadorGana)
             {
-                mensajeFinal.text = "¡TUTORIAL COMPLETADO!";
                 LevelManager.tutorialDialogoVisto = true;
                 LevelManager.UltimoNivelCompletado = 0;
                 LevelManager.CurrentLevel = 1;
-                StartCoroutine(VolverADialogo());
             }
             else
             {
-                mensajeFinal.text = "REINTENTA EL TUTORIAL";
-                StartCoroutine(ReiniciarTutorial());
+                LevelManagerFlags.VieneDeDerrota = true;
             }
 
-            Time.timeScale = 0f;
+            StartCoroutine(VolverADialogo());
             return;
         }
 
         if (jugadorGana)
         {
-            mensajeFinal.text = "VICTORIA";
             LevelManager.AvanzarNivel();
-            StartCoroutine(VolverADialogo());
         }
         else
         {
-            mensajeFinal.text = "DERROTA";
             LevelManagerFlags.VieneDeDerrota = true;
-            StartCoroutine(VolverADialogo());
         }
 
-        Time.timeScale = 0f;
+        StartCoroutine(VolverADialogo());
     }
 
     private IEnumerator VolverADialogo()
     {
-        yield return new WaitForSecondsRealtime(2.5f);
-        Time.timeScale = 1f;
+        yield return new WaitForSeconds(2.5f);
         LevelManager.IrADialogo();
-    }
-
-    private IEnumerator ReiniciarTutorial()
-    {
-        yield return new WaitForSecondsRealtime(2.5f);
-        Time.timeScale = 1f;
-        LevelManager.IniciarTutorial();
     }
     #endregion
 }

@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 1f;
+        float spacing = 1.2f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        float spacing = 1f;
+        float spacing = 1.2f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -204,7 +204,7 @@ public class GameController : MonoBehaviour
     #region Organización de la mano
     public void ReordenarMano()
     {
-        float spacing = 0.7f;
+        float spacing = 1.2f;
         float totalWidth = (manoActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
 

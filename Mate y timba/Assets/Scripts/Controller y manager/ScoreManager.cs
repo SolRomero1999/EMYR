@@ -73,7 +73,13 @@ public class ScoreManager : MonoBehaviour
     {
         int mitad = tablero.rows / 2;
 
-        for (int col = 0; col < tablero.columns; col++)
+        int columnasTablero = tablero.columns;
+        int columnasUIJugador = puntajeColumnasJugador.Length;
+        int columnasUIIA = puntajeColumnasIA.Length;
+
+        int columnasACalcular = Mathf.Min(columnasTablero, columnasUIJugador, columnasUIIA);
+
+        for (int col = 0; col < columnasACalcular; col++)
         {
             int pj = CalcularPuntajeColumna(col, 0, mitad - 1);
             int pi = CalcularPuntajeColumna(col, mitad, tablero.rows - 1);
@@ -110,16 +116,24 @@ public class ScoreManager : MonoBehaviour
         int totalJugador = 0;
         int totalIA = 0;
 
-        for (int i = 0; i < mitad; i++)
+        // Filas
+        int filasJugador = Mathf.Min(mitad, puntajeFilasJugador.Length);
+        int filasIA = Mathf.Min(mitad, puntajeFilasIA.Length);
+
+        for (int i = 0; i < filasJugador; i++)
             totalJugador += int.Parse(puntajeFilasJugador[i].text);
 
-        for (int i = 0; i < mitad; i++)
+        for (int i = 0; i < filasIA; i++)
             totalIA += int.Parse(puntajeFilasIA[i].text);
 
-        for (int j = 0; j < tablero.columns; j++)
+        // Columnas
+        int columnasJugador = Mathf.Min(tablero.columns, puntajeColumnasJugador.Length);
+        int columnasIA = Mathf.Min(tablero.columns, puntajeColumnasIA.Length);
+
+        for (int j = 0; j < columnasJugador; j++)
             totalJugador += int.Parse(puntajeColumnasJugador[j].text);
 
-        for (int j = 0; j < tablero.columns; j++)
+        for (int j = 0; j < columnasIA; j++)
             totalIA += int.Parse(puntajeColumnasIA[j].text);
 
         puntajeTotalJugador.text = totalJugador.ToString();

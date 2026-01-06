@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: d5924968d2ce8f446bd357838fec6281
+guid: 6781d2b784e83d645977216253fc1344
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3520263989320318772
-    second: cartas base_0
+      213: 6046185261820834540
+    second: palos_0
   - first:
-      213: 6176849281024034299
-    second: cartas base_1
+      213: -6711898043706775441
+    second: palos_1
   - first:
-      213: 3788881833603665820
-    second: cartas base_2
+      213: 739143717356655306
+    second: palos_2
   - first:
-      213: -1746943561762835967
-    second: cartas base_3
+      213: -4801585966413513273
+    second: palos_3
   - first:
-      213: 2288701509462557741
-    second: cartas base_4
+      213: 2763591724534094106
+    second: palos_4
   - first:
-      213: 2286828390686490558
-    second: cartas base_5
+      213: 2364374599737404195
+    second: palos_5
   - first:
-      213: 8621444627826448642
-    second: cartas base_6
+      213: -5887301429756649484
+    second: palos_6
   - first:
-      213: 6251925883146545297
-    second: cartas base_7
+      213: 1695345297229004491
+    second: palos_7
   - first:
-      213: 5795131577246679864
-    second: cartas base_8
+      213: 279154325193938245
+    second: palos_8
   - first:
-      213: 9204478575361305014
-    second: cartas base_9
+      213: 7370797579917503563
+    second: palos_9
   - first:
-      213: -4423434260977292669
-    second: cartas base_10
+      213: 6317732735312629161
+    second: palos_10
   - first:
-      213: -7004308953979526033
-    second: cartas base_11
+      213: 565824031052399429
+    second: palos_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -146,265 +146,265 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cartas base_0
+      name: palos_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 455
-        width: 159
-        height: 207
+        x: 7
+        y: 451
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cc086f88d82852fc0800000000000000
-      internalID: -3520263989320318772
+      spriteID: ce27809267d58e350800000000000000
+      internalID: 6046185261820834540
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_1
+      name: palos_1
       rect:
         serializedVersion: 2
-        x: 194
-        y: 454
-        width: 157
-        height: 207
+        x: 188
+        y: 449
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bf5809ad1b398b550800000000000000
-      internalID: 6176849281024034299
+      spriteID: f68e7385a4c8ad2a0800000000000000
+      internalID: -6711898043706775441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_2
+      name: palos_2
       rect:
         serializedVersion: 2
-        x: 376
-        y: 453
-        width: 156
-        height: 206
+        x: 370
+        y: 448
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c9f80eb04ffc49430800000000000000
-      internalID: 3788881833603665820
+      spriteID: ac251077b47f14a00800000000000000
+      internalID: 739143717356655306
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_3
+      name: palos_3
       rect:
         serializedVersion: 2
-        x: 552
-        y: 450
-        width: 156
-        height: 206
+        x: 546
+        y: 446
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1027876161c91c7e0800000000000000
-      internalID: -1746943561762835967
+      spriteID: 7cdfb61e0075d5db0800000000000000
+      internalID: -4801585966413513273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_4
+      name: palos_4
       rect:
         serializedVersion: 2
-        x: 15
-        y: 231
-        width: 156
-        height: 205
+        x: 7
+        y: 227
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d248a6495e913cf10800000000000000
-      internalID: 2288701509462557741
+      spriteID: a19501508004a5620800000000000000
+      internalID: 2763591724534094106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_5
+      name: palos_5
       rect:
         serializedVersion: 2
-        x: 196
-        y: 231
-        width: 155
-        height: 205
+        x: 188
+        y: 226
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ebf75212e427cbf10800000000000000
-      internalID: 2286828390686490558
+      spriteID: 32bed45eb22ffc020800000000000000
+      internalID: 2364374599737404195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_6
+      name: palos_6
       rect:
         serializedVersion: 2
-        x: 380
-        y: 231
-        width: 156
-        height: 204
+        x: 374
+        y: 226
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2099b4ce53685a770800000000000000
-      internalID: 8621444627826448642
+      spriteID: 4ff94b9ba8a1c4ea0800000000000000
+      internalID: -5887301429756649484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_7
+      name: palos_7
       rect:
         serializedVersion: 2
-        x: 557
-        y: 229
-        width: 154
-        height: 205
+        x: 550
+        y: 224
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1982503777d43c650800000000000000
-      internalID: 6251925883146545297
+      spriteID: bceb6f4c093178710800000000000000
+      internalID: 1695345297229004491
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_8
+      name: palos_8
       rect:
         serializedVersion: 2
-        x: 16
-        y: 9
-        width: 156
-        height: 206
+        x: 8
+        y: 5
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 833007037717c6050800000000000000
-      internalID: 5795131577246679864
+      spriteID: 545d2b63161cfd300800000000000000
+      internalID: 279154325193938245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_9
+      name: palos_9
       rect:
         serializedVersion: 2
-        x: 196
-        y: 10
-        width: 156
-        height: 205
+        x: 190
+        y: 6
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b9aa133f70ecbf70800000000000000
-      internalID: 9204478575361305014
+      spriteID: b4caa46c8555a4660800000000000000
+      internalID: 7370797579917503563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_10
+      name: palos_10
       rect:
         serializedVersion: 2
-        x: 379
-        y: 11
-        width: 155
-        height: 206
+        x: 372
+        y: 6
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38ae72bd9fdcc92c0800000000000000
-      internalID: -4423434260977292669
+      spriteID: 9ad8a2233781da750800000000000000
+      internalID: 6317732735312629161
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cartas base_11
+      name: palos_11
       rect:
         serializedVersion: 2
-        x: 554
-        y: 9
-        width: 157
-        height: 205
+        x: 548
+        y: 4
+        width: 166
+        height: 217
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6466f4ed12bbce90800000000000000
-      internalID: -7004308953979526033
+      spriteID: 543024855f53ad700800000000000000
+      internalID: 565824031052399429
       vertices: []
       indices: 
       edges: []
@@ -413,7 +413,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e2d82e1d2b994144c9f318491c50d2bf
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -423,18 +423,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cartas base_0: -3520263989320318772
-      cartas base_1: 6176849281024034299
-      cartas base_10: -4423434260977292669
-      cartas base_11: -7004308953979526033
-      cartas base_2: 3788881833603665820
-      cartas base_3: -1746943561762835967
-      cartas base_4: 2288701509462557741
-      cartas base_5: 2286828390686490558
-      cartas base_6: 8621444627826448642
-      cartas base_7: 6251925883146545297
-      cartas base_8: 5795131577246679864
-      cartas base_9: 9204478575361305014
+      palos_0: 6046185261820834540
+      palos_1: -6711898043706775441
+      palos_10: 6317732735312629161
+      palos_11: 565824031052399429
+      palos_2: 739143717356655306
+      palos_3: -4801585966413513273
+      palos_4: 2763591724534094106
+      palos_5: 2364374599737404195
+      palos_6: -5887301429756649484
+      palos_7: 1695345297229004491
+      palos_8: 279154325193938245
+      palos_9: 7370797579917503563
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
