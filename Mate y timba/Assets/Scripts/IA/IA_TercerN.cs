@@ -41,7 +41,6 @@ public class IA_TercerN : IA_Base
         if (game.manoIAActual.Count == 0)
             return;
 
-        // 1. Si está bajando un trío, lo termina
         if (valorTrioActivo != -1)
         {
             if (JugarCartaDeTrio())
@@ -51,7 +50,6 @@ public class IA_TercerN : IA_Base
             columnaTrioActivo = -1;
         }
 
-        // 2. Si está enojado, intenta eliminar
         if (turnosEnojo > 0)
         {
             if (IntentarEliminarCartaJugador())
@@ -63,11 +61,9 @@ public class IA_TercerN : IA_Base
             turnosEnojo--;
         }
 
-        // 3. Prioridad base: armar tríos
         if (BuscarYActivarTrio())
             return;
 
-        // 4. Jugar carta no duplicada
         Carta cartaNoDuplicada = ElegirCartaNoDuplicada();
         if (cartaNoDuplicada != null)
         {
@@ -75,7 +71,6 @@ public class IA_TercerN : IA_Base
             return;
         }
 
-        // 5. Último recurso
         Carta cartaRandom = game.manoIAActual[Random.Range(0, game.manoIAActual.Count)];
         JugarCarta(cartaRandom);
     }

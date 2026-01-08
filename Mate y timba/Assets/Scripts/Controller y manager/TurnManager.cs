@@ -6,12 +6,22 @@ public class TurnManager : MonoBehaviour
     public GameController game;
     public float delayIA = 1f;
 
+    [Header("Diálogo de resultado del nivel")]
+    [SerializeField] private MonoBehaviour dialogoResultadoNivel;
+    private IResultadoDialogo dialogoResultado;
+
     private bool turnoJugador = true;
     private bool partidaTerminada = false;
+
+    [Header("Cheats (solo testing)")]
+    public bool cheatsActivos = true;
+    public KeyCode cheatVictoria = KeyCode.V;
+    public KeyCode cheatDerrota = KeyCode.D;
 
     #region Inicio
     private void Start()
     {
+        dialogoResultado = dialogoResultadoNivel as IResultadoDialogo;
         StartCoroutine(IniciarTurnos());
     }
 
@@ -22,9 +32,31 @@ public class TurnManager : MonoBehaviour
     }
     #endregion
 
+    #region Update (Cheats)
+    private void Update()
+    {
+        if (!cheatsActivos || partidaTerminada)
+            return;
+
+        if (Input.GetKeyDown(cheatVictoria))
+        {
+            Debug.Log("[CHEAT] Forzar victoria del jugador");
+            ForzarResultado(true);
+        }
+
+        if (Input.GetKeyDown(cheatDerrota))
+        {
+            Debug.Log("[CHEAT] Forzar derrota del jugador");
+            ForzarResultado(false);
+        }
+    }
+    #endregion
+
     #region Turno Jugador
     private void IniciarTurnoJugador()
     {
+        if (partidaTerminada) return;
+
         turnoJugador = true;
         game.jugadorYaRobo = false;
     }
@@ -90,17 +122,66 @@ public class TurnManager : MonoBehaviour
         if (partidaTerminada) return;
         partidaTerminada = true;
 
+        bool victoriaJugador = CalcularVictoriaJugador();
+        ResolverResultado(victoriaJugador);
+    }
+    #endregion
+
+    #region Cheat
+    private void ForzarResultado(bool victoriaJugador)
+    {
+        if (partidaTerminada) return;
+
+        partidaTerminada = true;
+        ResolverResultado(victoriaJugador);
+    }
+    #endregion
+
+    #region Resolución
+    private bool CalcularVictoriaJugador()
+    {
         ScoreManager sm = FindFirstObjectByType<ScoreManager>();
         sm.ActualizarPuntajes();
 
         int puntosJugador = int.Parse(sm.puntajeTotalJugador.text);
         int puntosIA = int.Parse(sm.puntajeTotalIA.text);
 
-        bool jugadorGana = puntosJugador > puntosIA;
+        return puntosJugador > puntosIA;
+    }
 
+    private void ResolverResultado(bool victoriaJugador)
+    {
+        // 🔹 1. Diálogo final si existe
+        if (dialogoResultado != null)
+        {
+            if (victoriaJugador && dialogoResultado.TieneDialogoVictoria())
+            {
+                dialogoResultado.MostrarDialogoVictoria(() =>
+                {
+                    ResolverNivel(victoriaJugador);
+                });
+                return;
+            }
+
+            if (!victoriaJugador && dialogoResultado.TieneDialogoDerrota())
+            {
+                dialogoResultado.MostrarDialogoDerrota(() =>
+                {
+                    ResolverNivel(victoriaJugador);
+                });
+                return;
+            }
+        }
+
+        // 🔹 2. Sin diálogo → flujo directo
+        ResolverNivel(victoriaJugador);
+    }
+
+    private void ResolverNivel(bool victoriaJugador)
+    {
         if (LevelManager.CurrentLevel == 0)
         {
-            if (jugadorGana)
+            if (victoriaJugador)
             {
                 LevelManager.tutorialDialogoVisto = true;
                 LevelManager.UltimoNivelCompletado = 0;
@@ -115,7 +196,7 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
-        if (jugadorGana)
+        if (victoriaJugador)
         {
             LevelManager.AvanzarNivel();
         }
@@ -126,7 +207,9 @@ public class TurnManager : MonoBehaviour
 
         StartCoroutine(VolverADialogo());
     }
+    #endregion
 
+    #region Transición
     private IEnumerator VolverADialogo()
     {
         yield return new WaitForSeconds(2.5f);

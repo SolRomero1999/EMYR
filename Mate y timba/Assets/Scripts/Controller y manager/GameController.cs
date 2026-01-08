@@ -90,29 +90,55 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
+        bool esTutorial = ia is IA_Tuto;
+
+        List<Carta> cartasIA = new List<Carta>();
+
+        if (esTutorial)
+        {
+            int valorDemo = 2;
+
+            for (int i = mazo.cartas.Count - 1; i >= 0 && cartasIA.Count < 3; i--)
+            {
+                if (mazo.cartas[i].valor == valorDemo)
+                {
+                    cartasIA.Add(mazo.cartas[i]);
+                    mazo.cartas.RemoveAt(i);
+                }
+            }
+
+            while (cartasIA.Count < cantidad)
+            {
+                Carta extra = mazo.RobarCarta();
+                if (extra == null) break;
+                cartasIA.Add(extra);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < cantidad; i++)
+                cartasIA.Add(mazo.RobarCarta());
+        }
+
         float spacing = 1.2f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
-        for (int i = 0; i < cantidad; i++)
+        for (int i = 0; i < cartasIA.Count; i++)
         {
-            Carta robada = mazo.RobarCarta();
+            Carta robada = cartasIA[i];
+            if (robada == null) continue;
 
-            if (robada != null)
-            {
-                robada.transform.SetParent(manoIA); 
-                robada.enMano = false;
-                robada.MostrarDorso();
+            robada.transform.SetParent(manoIA);
+            robada.enMano = false;
+            robada.MostrarDorso();
+            manoIAActual.Add(robada);
 
-                manoIAActual.Add(robada);
-
-                float x = startX + i * spacing;
-                Vector3 nuevaPosicion = new Vector3(x, 0, 0);
-                robada.SetPosicionOriginal(nuevaPosicion);
-            }
+            float x = startX + i * spacing;
+            robada.SetPosicionOriginal(new Vector3(x, 0, 0));
         }
 
-        Debug.Log("IA recibió 5 cartas");
+        Debug.Log("IA recibió cartas (tutorial: " + esTutorial + ")");
     }
     #endregion
 
