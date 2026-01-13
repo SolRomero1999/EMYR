@@ -64,7 +64,7 @@ public class Carta : MonoBehaviour
         ActualizarPosicion();
 
         TurnManager tm = FindFirstObjectByType<TurnManager>();
-        if (enMano && tm != null && tm.EsTurnoJugador()
+        if (enMano && tm != null && tm.PuedeInteractuarJugador()
             && mouse != null && mouse.leftButton.wasPressedThisFrame)
         {
             if (EstaMouseSobreCarta())
@@ -75,7 +75,7 @@ public class Carta : MonoBehaviour
     private void OnMouseDown()
     {
         TurnManager tm = FindFirstObjectByType<TurnManager>();
-        if (enMano && tm != null && tm.EsTurnoJugador())
+        if (enMano && tm != null && tm.PuedeInteractuarJugador())
             HacerSeleccion();
         UI_Items ui = FindFirstObjectByType<UI_Items>();
         if (ui != null)

@@ -139,6 +139,9 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
         esperandoVistaTablero = true;
         dialogueText.text = "";
 
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        tm?.BloquearInputJugador(); 
+
         yield return BlinkYCambiarCamara(CameraController.Instance.IrAGameplay);
         yield return new WaitForSeconds(2f);
         yield return BlinkYCambiarCamara(CameraController.Instance.IrADialogo);
@@ -174,6 +177,9 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
     private void FinalizarTutorialDialogo()
     {
         LevelManager.tutorialDialogoVisto = true;
+
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        tm?.HabilitarInputJugador(); 
 
         BlinkController.Instance.StartBlink(() =>
         {

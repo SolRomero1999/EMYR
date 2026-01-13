@@ -14,6 +14,7 @@ public class TurnManager : MonoBehaviour
 
     private bool turnoJugador = true;
     private bool partidaTerminada = false;
+    private bool inputJugadorHabilitado = true;
 
     [Header("Cheats (solo testing)")]
     public bool cheatsActivos = true;
@@ -51,6 +52,23 @@ public class TurnManager : MonoBehaviour
             Debug.Log("[CHEAT] Forzar derrota del jugador");
             ForzarResultado(false);
         }
+    }
+    #endregion
+
+    #region Estado de input
+    public void BloquearInputJugador()
+    {
+        inputJugadorHabilitado = false;
+    }
+
+    public void HabilitarInputJugador()
+    {
+        inputJugadorHabilitado = true;
+    }
+
+    public bool PuedeInteractuarJugador()
+    {
+        return turnoJugador && !partidaTerminada && inputJugadorHabilitado;
     }
     #endregion
 
