@@ -145,37 +145,35 @@ public class GameController : MonoBehaviour
     #region Robar cartas durante la partida
     public void IntentarRobarCarta()
     {
-        if (jugadorYaRobo)
-        {
-            Debug.Log("Ya robaste una carta este turno.");
-            return;
-        }
-
-        if (manoActual.Count >= maxCartasMano)
-        {
-            Debug.Log("No puedes tener más de 5 cartas");
-            return;
-        }
+        if (jugadorYaRobo) return;
+        if (manoActual.Count >= maxCartasMano) return;
 
         Carta robada = mazo.RobarCarta();
+        if (robada == null) return;
 
-        if (robada == null)
-        {
-            Debug.Log("El mazo está vacío");
-            return;
-        }
+        jugadorYaRobo = true;
 
-        jugadorYaRobo = true; 
-
-        robada.transform.SetParent(manoJugador);
-        robada.enMano = true;
         manoActual.Add(robada);
-        ReordenarMano();
-        robada.MostrarFrente();
-        Debug.Log("Robaste: " + robada.name);
+        robada.enMano = true;
 
-        TurnManager tm = FindFirstObjectByType<TurnManager>();
-        tm.TerminarTurnoJugador();
+        float spacing = 1.2f;
+        float totalWidth = (manoActual.Count - 1) * spacing;
+        float startX = -totalWidth / 2f;
+        Vector3 posicionFinal = new Vector3(startX + (manoActual.Count - 1) * spacing, 0, 0);
+
+        robada.AnimarRoboDesdeMazo(
+            mazo.transform,
+            manoJugador,
+            posicionFinal,
+            () =>
+            {
+                ReordenarMano();
+                robada.MostrarFrente();
+
+                TurnManager tm = FindFirstObjectByType<TurnManager>();
+                tm.TerminarTurnoJugador();
+            }
+        );
     }
 
     public void RobarCartaIA()
@@ -185,21 +183,28 @@ public class GameController : MonoBehaviour
         Carta robada = mazo.RobarCarta();
         if (robada == null) return;
 
-        robada.transform.SetParent(manoIA);
-        robada.enMano = false;
-        robada.MostrarDorso();
-
         manoIAActual.Add(robada);
+        robada.enMano = false;
 
         float spacing = 1.5f;
         float totalWidth = (manoIAActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
+        Vector3 posicionFinal = new Vector3(
+            startX + (manoIAActual.Count - 1) * spacing,
+            0,
+            0
+        );
 
-        for (int i = 0; i < manoIAActual.Count; i++)
-        {
-            float x = startX + i * spacing;
-            manoIAActual[i].SetPosicionOriginal(new Vector3(x, 0, 0));
-        }
+        robada.AnimarRoboDesdeMazo(
+            mazo.transform,
+            manoIA,
+            posicionFinal,
+            () =>
+            {
+                ReordenarManoIA();
+                robada.MostrarDorso(); 
+            }
+        );
     }
 
     public void IA_JugarCarta()
@@ -239,6 +244,19 @@ public class GameController : MonoBehaviour
             Carta c = manoActual[i];
             float x = startX + i * spacing;
             c.SetPosicionOriginal(new Vector3(x, 0, 0));
+        }
+    }
+
+    private void ReordenarManoIA()
+    {
+        float spacing = 1.5f;
+        float totalWidth = (manoIAActual.Count - 1) * spacing;
+        float startX = -totalWidth / 2f;
+
+        for (int i = 0; i < manoIAActual.Count; i++)
+        {
+            float x = startX + i * spacing;
+            manoIAActual[i].SetPosicionOriginal(new Vector3(x, 0, 0));
         }
     }
     #endregion

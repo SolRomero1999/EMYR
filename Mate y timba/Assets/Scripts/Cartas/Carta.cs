@@ -63,7 +63,9 @@ public class Carta : MonoBehaviour
         ActualizarHover();
         ActualizarPosicion();
 
-        if (enMano && mouse != null && mouse.leftButton.wasPressedThisFrame)
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        if (enMano && tm != null && tm.EsTurnoJugador()
+            && mouse != null && mouse.leftButton.wasPressedThisFrame)
         {
             if (EstaMouseSobreCarta())
                 HacerSeleccion();
@@ -72,7 +74,8 @@ public class Carta : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (enMano)
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        if (enMano && tm != null && tm.EsTurnoJugador())
             HacerSeleccion();
         UI_Items ui = FindFirstObjectByType<UI_Items>();
         if (ui != null)
@@ -344,6 +347,66 @@ public class Carta : MonoBehaviour
     public void MostrarDorso()
     {
         if (sr) sr.sprite = dorso;
+    }
+    #endregion
+
+    #region Robar carta
+    public void AnimarRoboDesdeMazo(
+        Transform mazo,
+        Transform mano,
+        Vector3 posicionFinalLocal,
+        System.Action onFinish = null
+    )
+    {
+        if (moverCoroutine != null)
+            StopCoroutine(moverCoroutine);
+
+        moverCoroutine = StartCoroutine(RoboDesdeMazoCoroutine(
+            mazo,
+            mano,
+            posicionFinalLocal,
+            onFinish
+        ));
+    }
+
+    private IEnumerator RoboDesdeMazoCoroutine(
+        Transform mazo,
+        Transform mano,
+        Vector3 posicionFinalLocal,
+        System.Action onFinish
+    )
+    {
+        enAnimacion = true;
+        boxCollider.enabled = false;
+
+        transform.SetParent(null, true);
+        transform.position = mazo.position;
+
+        MostrarDorso();
+
+        Vector3 inicio = transform.position;
+
+        Vector3 destino = mano.TransformPoint(posicionFinalLocal);
+
+        float t = 0f;
+        float duracion = 0.35f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duracion;
+            transform.position = Vector3.Lerp(inicio, destino, t);
+            yield return null;
+        }
+
+        transform.SetParent(mano);
+        transform.localPosition = posicionFinalLocal;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
+
+        enAnimacion = false;
+        boxCollider.enabled = true;
+
+        onFinish?.Invoke();
     }
     #endregion
 }

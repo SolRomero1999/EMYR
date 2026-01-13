@@ -975,7 +975,7 @@ MonoBehaviour:
   - Parece que ya entendiste como va esto.
   derrotaLines:
   - "Bueno, esto es cuesti\xF3n de pr\xE1ctica, ya le vas a agarrar la mano."
-  charsPerSecond: 40
+  charsPerSecond: 30
 --- !u!1 &243111671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,7 +2917,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: -5752150157962797477, guid: 5b6c45a2a18dae2489022837ac9680c7, type: 3}
+  m_Sprite: {fileID: 6703706939856168143, guid: d903ac2d237b4c7478324d10ac77cbae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

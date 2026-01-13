@@ -55,6 +55,11 @@ public class TurnManager : MonoBehaviour
     #endregion
 
     #region Turno Jugador
+    public bool EsTurnoJugador()
+    {
+        return turnoJugador && !partidaTerminada;
+    }
+
     private void IniciarTurnoJugador()
     {
         if (partidaTerminada) return;
