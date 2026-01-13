@@ -4,7 +4,9 @@ using System.Collections;
 public class TurnManager : MonoBehaviour
 {
     public GameController game;
-    public float delayIA = 1f;
+    [Header("Tiempo de reacción IA")]
+    public float delayIAMin = 2f;
+    public float delayIAMax = 5f;
 
     [Header("Diálogo de resultado del nivel")]
     [SerializeField] private MonoBehaviour dialogoResultadoNivel;
@@ -82,7 +84,8 @@ public class TurnManager : MonoBehaviour
     #region Turno IA
     private IEnumerator TurnoIA()
     {
-        yield return new WaitForSeconds(delayIA);
+        float tiempoPensar = Random.Range(delayIAMin, delayIAMax);
+        yield return new WaitForSeconds(tiempoPensar);
 
         if (partidaTerminada) yield break;
 
@@ -100,6 +103,7 @@ public class TurnManager : MonoBehaviour
         VerificarFinDePartida();
         IniciarTurnoJugador();
     }
+    
     #endregion
 
     #region Fin de Partida
@@ -151,7 +155,6 @@ public class TurnManager : MonoBehaviour
 
     private void ResolverResultado(bool victoriaJugador)
     {
-        // 🔹 1. Diálogo final si existe
         if (dialogoResultado != null)
         {
             if (victoriaJugador && dialogoResultado.TieneDialogoVictoria())
@@ -173,7 +176,6 @@ public class TurnManager : MonoBehaviour
             }
         }
 
-        // 🔹 2. Sin diálogo → flujo directo
         ResolverNivel(victoriaJugador);
     }
 

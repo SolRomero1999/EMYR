@@ -8185,7 +8185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
   game: {fileID: 1283011276}
-  delayIA: 1
+  delayIAMin: 1
+  delayIAMax: 3
   dialogoResultadoNivel: {fileID: 224206580}
   cheatsActivos: 1
   cheatVictoria: 118

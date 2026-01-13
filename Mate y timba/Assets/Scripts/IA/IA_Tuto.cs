@@ -84,4 +84,10 @@ public class IA_Tuto : IA_Base
         carta.MostrarFrente();
         game.manoIAActual.Remove(carta);
     }
+
+    public void NotificarTrioTutorial()
+    {
+        OnTrioTutorialCompletado?.Invoke();
+    }
+
 }

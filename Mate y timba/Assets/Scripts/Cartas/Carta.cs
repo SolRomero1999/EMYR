@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+
 
 public class Carta : MonoBehaviour
 {
@@ -26,6 +28,12 @@ public class Carta : MonoBehaviour
     private bool estaEnHover = false;
     private bool hoverAnterior = false;
     private bool seleccionada = false;
+    private bool enAnimacion = false;
+
+
+    [Header("Animación de colocación")]
+    [SerializeField] private float duracionMovimientoACelda = 0.25f;
+    private Coroutine moverCoroutine;
 
     // Componentes
     private Camera mainCamera;
@@ -49,8 +57,12 @@ public class Carta : MonoBehaviour
 
     private void Update()
     {
+        if (enAnimacion)
+            return;
+
         ActualizarHover();
         ActualizarPosicion();
+
         if (enMano && mouse != null && mouse.leftButton.wasPressedThisFrame)
         {
             if (EstaMouseSobreCarta())
@@ -142,41 +154,71 @@ public class Carta : MonoBehaviour
     #region Colocación en celdas
     public void ColocarEnCelda(Cell celda)
     {
+        if (moverCoroutine != null)
+            StopCoroutine(moverCoroutine);
+
+        moverCoroutine = StartCoroutine(MoverACelda(celda));
+    }
+
+    private IEnumerator MoverACelda(Cell celda)
+    {
+        enAnimacion = true;
+
         seleccionada = false;
         enMano = false;
+        boxCollider.enabled = false;
+
+        transform.SetParent(null, true);
+
+        Vector3 inicio = transform.position;
+        Vector3 destino = celda.transform.position;
+
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duracionMovimientoACelda;
+            transform.position = Vector3.Lerp(inicio, destino, t);
+            yield return null;
+        }
+
+        transform.position = destino;
+        transform.SetParent(celda.transform);
+        transform.localPosition = Vector3.zero;
+        posicionOriginal = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
+
         celda.SetOccupied(this);
 
+        FinalizarColocacion(celda);
+
+        enAnimacion = false;
+    }
+
+    private void FinalizarColocacion(Cell celda)
+    {
         if (this is CartaComodin comodin)
         {
             Tablero tablero = FindFirstObjectByType<Tablero>();
-            if (tablero != null)
-            {
-                comodin.ConfigurarValorInicial(celda, tablero);
-            }
+            comodin?.ConfigurarValorInicial(celda, tablero);
         }
 
         GameController gc = FindFirstObjectByType<GameController>();
-
         if (gc != null && gc.manoActual.Contains(this))
         {
             gc.manoActual.Remove(this);
             gc.ReordenarMano();
         }
 
-        transform.SetParent(celda.transform);
-        posicionOriginal = Vector3.zero;
-        transform.localPosition = Vector3.zero;
-
-        Debug.Log(name + $" colocado en celda {celda.column},{celda.row}");
-        
         AplicarReglaEliminacion(celda);
 
         ScoreManager sm = FindFirstObjectByType<ScoreManager>();
-        if (sm != null) 
-        {
-            sm.ActualizarPuntajes();
-            Debug.Log($"Puntajes actualizados inmediatamente para {name} (valor: {valor})");
-        }
+        sm?.ActualizarPuntajes();
+
+        boxCollider.enabled = true;
+
+        Debug.Log($"{name} colocado suavemente en celda {celda.column},{celda.row}");
     }
 
     private void DetectarTrioJugador(Cell celda)
@@ -209,6 +251,34 @@ public class Carta : MonoBehaviour
             GameController gc = FindFirstObjectByType<GameController>();
             if (gc != null && gc.ia != null)
                 gc.ia.OnTrioJugadorDetectado();
+        }
+    }
+
+    private void DetectarTrioTutorial(Cell celda)
+    {
+        if (!(FindFirstObjectByType<GameController>()?.ia is IA_Tuto))
+            return;
+
+        Tablero tablero = FindFirstObjectByType<Tablero>();
+        if (tablero == null) return;
+
+        if (!tablero.EsFilaRival(celda.row))
+            return;
+
+        int valorActual = valor;
+        int coincidencias = 0;
+
+        for (int c = 0; c < tablero.columns; c++)
+        {
+            Cell otra = tablero.ObtenerCelda(c, celda.row)?.GetComponent<Cell>();
+            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
+                coincidencias++;
+        }
+
+        if (coincidencias >= 3)
+        {
+            IA_Tuto iaTuto = FindFirstObjectByType<IA_Tuto>();
+            iaTuto?.NotificarTrioTutorial();
         }
     }
     #endregion
