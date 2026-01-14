@@ -92,6 +92,10 @@ public class TurnManager : MonoBehaviour
 
         turnoJugador = false;
         VerificarFinDePartida();
+
+        if (partidaTerminada)
+            return;
+
         StartCoroutine(TurnoIA());
     }
 
@@ -110,7 +114,14 @@ public class TurnManager : MonoBehaviour
         float tiempoPensar = Random.Range(delayIAMin, delayIAMax);
         yield return new WaitForSeconds(tiempoPensar);
 
-        if (partidaTerminada) yield break;
+        if (partidaTerminada)
+            yield break;
+
+        if (!game.tablero.HayCeldasDisponiblesIA())
+        {
+            VerificarFinDePartida();
+            yield break;
+        }
 
         if (game.manoIAActual.Count < game.maxCartasMano)
         {
@@ -124,7 +135,9 @@ public class TurnManager : MonoBehaviour
         }
 
         VerificarFinDePartida();
-        IniciarTurnoJugador();
+
+        if (!partidaTerminada)
+            IniciarTurnoJugador();
     }
     
     #endregion
@@ -147,7 +160,9 @@ public class TurnManager : MonoBehaviour
     private void FinalizarPartida()
     {
         if (partidaTerminada) return;
+
         partidaTerminada = true;
+        StopAllCoroutines(); 
 
         bool victoriaJugador = CalcularVictoriaJugador();
         ResolverResultado(victoriaJugador);

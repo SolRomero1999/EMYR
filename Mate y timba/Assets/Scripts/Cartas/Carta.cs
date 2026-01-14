@@ -179,7 +179,6 @@ public class Carta : MonoBehaviour
         if (tm != null)
         {
             tm.BloquearInputJugador();
-            tm.TerminarTurnoJugador();
         }
 
         moverCoroutine = StartCoroutine(MoverACelda(celda));
@@ -225,9 +224,7 @@ public class Carta : MonoBehaviour
     private void FinalizarColocacion(Cell celda)
     {
         if (this is CartaComodin comodin && tablero != null)
-        {
             comodin.ConfigurarValorInicial(celda, tablero);
-        }
 
         if (gc != null && gc.manoActual.Contains(this))
         {
@@ -237,10 +234,13 @@ public class Carta : MonoBehaviour
 
         AplicarReglaEliminacion(celda);
 
-        ScoreManager sm = FindFirstObjectByType<ScoreManager>();
-        sm?.ActualizarPuntajes();
+        FindFirstObjectByType<ScoreManager>()?.ActualizarPuntajes();
 
-        boxCollider.enabled = true;
+        if (tm != null)
+        {
+            tm.HabilitarInputJugador();
+            tm.TerminarTurnoJugador(); 
+        }
     }
     #endregion
 
