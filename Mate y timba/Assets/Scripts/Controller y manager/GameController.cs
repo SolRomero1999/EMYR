@@ -172,6 +172,10 @@ public class GameController : MonoBehaviour
     #region Robar cartas durante la partida
     public void IntentarRobarCarta()
     {
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        if (tm == null || !tm.PuedeInteractuarJugador())
+            return;
+
         if (jugadorYaRobo) return;
         if (manoActual.Count >= maxCartasMano) return;
 
@@ -186,7 +190,11 @@ public class GameController : MonoBehaviour
         float spacing = 1.2f;
         float totalWidth = (manoActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
-        Vector3 posicionFinal = new Vector3(startX + (manoActual.Count - 1) * spacing, 0, 0);
+        Vector3 posicionFinal = new Vector3(
+            startX + (manoActual.Count - 1) * spacing,
+            0,
+            0
+        );
 
         robada.AnimarRoboDesdeMazo(
             mazo.transform,
@@ -197,7 +205,6 @@ public class GameController : MonoBehaviour
                 ReordenarMano();
                 robada.MostrarFrente();
 
-                TurnManager tm = FindFirstObjectByType<TurnManager>();
                 tm.TerminarTurnoJugador();
             }
         );

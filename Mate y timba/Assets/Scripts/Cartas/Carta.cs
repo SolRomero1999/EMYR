@@ -81,6 +81,9 @@ public class Carta : MonoBehaviour
         if (!enMano || tm == null || !tm.PuedeInteractuarJugador())
             return;
 
+        if (gc != null && gc.jugadorYaRobo)
+            return;
+
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (EstaMouseSobreCarta())
@@ -173,6 +176,12 @@ public class Carta : MonoBehaviour
         if (moverCoroutine != null)
             StopCoroutine(moverCoroutine);
 
+        if (tm != null)
+        {
+            tm.BloquearInputJugador();
+            tm.TerminarTurnoJugador();
+        }
+
         moverCoroutine = StartCoroutine(MoverACelda(celda));
     }
 
@@ -208,6 +217,9 @@ public class Carta : MonoBehaviour
 
         FinalizarColocacion(celda);
         enAnimacion = false;
+
+        if (tm != null)
+        tm.HabilitarInputJugador();
     }
 
     private void FinalizarColocacion(Cell celda)
