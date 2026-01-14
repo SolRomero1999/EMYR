@@ -65,24 +65,34 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
+        bool esTutorial = ia is IA_Tuto;
+
         float spacing = 1.2f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
-        for (int i = 0; i < cantidad; i++)
+        int cartasDadas = 0;
+
+        while (cartasDadas < cantidad)
         {
             Carta robada = mazo.RobarCarta();
+            if (robada == null) break;
 
-            if (robada != null)
+            if (esTutorial && robada.valor == 2)
             {
-                robada.transform.SetParent(manoJugador);
-                robada.enMano = true;
-                manoActual.Add(robada);
-                float x = startX + i * spacing;
-                Vector3 nuevaPosicion = new Vector3(x, 0, 0);
-                robada.SetPosicionOriginal(nuevaPosicion);
-                robada.MostrarFrente();
+                mazo.cartas.Insert(0, robada);
+                continue;
             }
+
+            robada.transform.SetParent(manoJugador);
+            robada.enMano = true;
+            manoActual.Add(robada);
+
+            float x = startX + cartasDadas * spacing;
+            robada.SetPosicionOriginal(new Vector3(x, 0, 0));
+            robada.MostrarFrente();
+
+            cartasDadas++;
         }
     }
 
