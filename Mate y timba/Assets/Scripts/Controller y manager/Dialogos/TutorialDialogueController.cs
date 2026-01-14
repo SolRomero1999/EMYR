@@ -221,15 +221,17 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
     private void FinalizarDialogoFinal()
     {
         dialogueText.text = "";
+        continuarButton.interactable = false;
 
         BlinkController.Instance.StartBlink(() =>
         {
+            gameObject.SetActive(false);
+
             callbackFinDialogoFinal?.Invoke();
             callbackFinDialogoFinal = null;
         });
 
         enDialogoFinal = false;
-        gameObject.SetActive(false);
     }
     #endregion
 

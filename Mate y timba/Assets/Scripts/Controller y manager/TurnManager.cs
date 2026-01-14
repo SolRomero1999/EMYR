@@ -232,7 +232,7 @@ public class TurnManager : MonoBehaviour
                 LevelManagerFlags.VieneDeDerrota = true;
             }
 
-            StartCoroutine(VolverADialogo());
+            LevelManager.IrADialogo();
             return;
         }
 
