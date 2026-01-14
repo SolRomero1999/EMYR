@@ -72,15 +72,20 @@ public class GameController : MonoBehaviour
         float startX = -totalWidth / 2f;
 
         int cartasDadas = 0;
+        int intentos = 0;
+        int maxIntentos = mazo.cartas.Count * 2;
 
-        while (cartasDadas < cantidad)
+        while (cartasDadas < cantidad && intentos < maxIntentos)
         {
+            intentos++;
+
             Carta robada = mazo.RobarCarta();
-            if (robada == null) break;
+            if (robada == null)
+                break;
 
             if (esTutorial && robada.valor == 2)
             {
-                mazo.cartas.Insert(0, robada);
+                mazo.cartas.Add(robada); 
                 continue;
             }
 
@@ -94,6 +99,9 @@ public class GameController : MonoBehaviour
 
             cartasDadas++;
         }
+
+        if (intentos >= maxIntentos)
+            Debug.LogWarning("Reparto jugador tutorial abortado por seguridad (demasiados intentos)");
     }
 
     private IEnumerator RepartirCartasIA(int cantidad)
@@ -101,20 +109,25 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         bool esTutorial = ia is IA_Tuto;
-
         List<Carta> cartasIA = new List<Carta>();
 
         if (esTutorial)
         {
             int valorDemo = 2;
+            int necesarias = 3;
 
-            for (int i = mazo.cartas.Count - 1; i >= 0 && cartasIA.Count < 3; i--)
+            for (int i = mazo.cartas.Count - 1; i >= 0 && cartasIA.Count < necesarias; i--)
             {
                 if (mazo.cartas[i].valor == valorDemo)
                 {
                     cartasIA.Add(mazo.cartas[i]);
                     mazo.cartas.RemoveAt(i);
                 }
+            }
+
+            if (cartasIA.Count < necesarias)
+            {
+                Debug.LogError("No hay suficientes cartas valor 2 en el mazo para el tutorial");
             }
 
             while (cartasIA.Count < cantidad)
@@ -127,11 +140,15 @@ public class GameController : MonoBehaviour
         else
         {
             for (int i = 0; i < cantidad; i++)
-                cartasIA.Add(mazo.RobarCarta());
+            {
+                Carta robada = mazo.RobarCarta();
+                if (robada != null)
+                    cartasIA.Add(robada);
+            }
         }
 
         float spacing = 1.2f;
-        float totalWidth = (cantidad - 1) * spacing;
+        float totalWidth = (cartasIA.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
 
         for (int i = 0; i < cartasIA.Count; i++)

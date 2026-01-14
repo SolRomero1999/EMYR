@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-
 public class Carta : MonoBehaviour
 {
     #region Variables Públicas
@@ -14,14 +13,13 @@ public class Carta : MonoBehaviour
     [Header("Estado")]
     public bool enMano = false;
     [HideInInspector] public Cell celdaActual;
-
     #endregion
 
     #region Variables Privadas
     private SpriteRenderer sr;
     private Vector3 posicionOriginal;
 
-    // Movimiento / Hover
+    // Hover / selección
     private float alturaHover = 0.3f;
     private float alturaSeleccion = 0.4f;
     private float velocidadMovimiento = 15f;
@@ -30,7 +28,6 @@ public class Carta : MonoBehaviour
     private bool seleccionada = false;
     private bool enAnimacion = false;
 
-
     [Header("Animación de colocación")]
     [SerializeField] private float duracionMovimientoACelda = 0.25f;
     private Coroutine moverCoroutine;
@@ -38,52 +35,61 @@ public class Carta : MonoBehaviour
     // Componentes
     private Camera mainCamera;
     private BoxCollider2D boxCollider;
-    private Mouse mouse;
+
+    // Referencias cacheadas
+    private TurnManager tm;
+    private GameController gc;
+    private Tablero tablero;
+    private UI_Items ui;
     #endregion
 
     #region Unity Lifecycle
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        mainCamera = Camera.main;
         boxCollider = GetComponent<BoxCollider2D>();
-        mouse = Mouse.current;
     }
 
     private void Start()
     {
         posicionOriginal = transform.localPosition;
+
+        tm = FindFirstObjectByType<TurnManager>();
+        gc = FindFirstObjectByType<GameController>();
+        tablero = FindFirstObjectByType<Tablero>();
+        ui = FindFirstObjectByType<UI_Items>();
+    }
+
+    private void OnDisable()
+    {
+        enAnimacion = false;
+        if (boxCollider != null)
+            boxCollider.enabled = true;
     }
 
     private void Update()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         if (enAnimacion)
             return;
 
         ActualizarHover();
         ActualizarPosicion();
 
-        TurnManager tm = FindFirstObjectByType<TurnManager>();
-        if (enMano && tm != null && tm.PuedeInteractuarJugador()
-            && mouse != null && mouse.leftButton.wasPressedThisFrame)
+        if (!enMano || tm == null || !tm.PuedeInteractuarJugador())
+            return;
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (EstaMouseSobreCarta())
                 HacerSeleccion();
         }
     }
-
-    private void OnMouseDown()
-    {
-        TurnManager tm = FindFirstObjectByType<TurnManager>();
-        if (enMano && tm != null && tm.PuedeInteractuarJugador())
-            HacerSeleccion();
-        UI_Items ui = FindFirstObjectByType<UI_Items>();
-        if (ui != null)
-            ui.SeleccionarCartaRival(this);
-    }
     #endregion
 
-    #region Input y Hover
+    #region Hover
     private void ActualizarHover()
     {
         if (!seleccionada && enMano)
@@ -103,8 +109,17 @@ public class Carta : MonoBehaviour
 
     private bool EstaMouseSobreCarta()
     {
-        if (!mainCamera || !boxCollider || mouse == null) return false;
-        Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(mouse.position.ReadValue());
+        if (boxCollider == null)
+            return false;
+
+        Camera cam = Camera.main;
+        if (cam == null)
+            return false;
+
+        if (Mouse.current == null)
+            return false;
+
+        Vector2 mouseWorldPos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         return boxCollider.OverlapPoint(mouseWorldPos);
     }
     #endregion
@@ -114,35 +129,33 @@ public class Carta : MonoBehaviour
     {
         if (SeleccionCartas.Instance == null)
         {
-            Debug.LogWarning("SeleccionCartas.Instance es null — falta el objeto ControlSeleccion en la escena.");
+            Debug.LogWarning("SeleccionCartas.Instance es null");
             return;
         }
 
         seleccionada = true;
         SeleccionCartas.Instance.SeleccionarCarta(this);
-        Debug.Log(name + " seleccionado");
     }
 
     public void Deseleccionar()
     {
         seleccionada = false;
-        Debug.Log(name + " deseleccionado");
     }
     #endregion
 
-    #region Movimiento / Posición
+    #region Movimiento visual
     private void ActualizarPosicion()
     {
-        Vector3 posicionObjetivo = posicionOriginal;
+        Vector3 objetivo = posicionOriginal;
 
         if (seleccionada)
-            posicionObjetivo += Vector3.up * alturaSeleccion;
+            objetivo += Vector3.up * alturaSeleccion;
         else if (estaEnHover)
-            posicionObjetivo += Vector3.up * alturaHover;
+            objetivo += Vector3.up * alturaHover;
 
         transform.localPosition = Vector3.Lerp(
             transform.localPosition,
-            posicionObjetivo,
+            objetivo,
             velocidadMovimiento * Time.deltaTime
         );
     }
@@ -166,7 +179,6 @@ public class Carta : MonoBehaviour
     private IEnumerator MoverACelda(Cell celda)
     {
         enAnimacion = true;
-
         seleccionada = false;
         enMano = false;
         boxCollider.enabled = false;
@@ -188,26 +200,23 @@ public class Carta : MonoBehaviour
         transform.position = destino;
         transform.SetParent(celda.transform);
         transform.localPosition = Vector3.zero;
-        posicionOriginal = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
+        posicionOriginal = Vector3.zero;
 
         celda.SetOccupied(this);
 
         FinalizarColocacion(celda);
-
         enAnimacion = false;
     }
 
     private void FinalizarColocacion(Cell celda)
     {
-        if (this is CartaComodin comodin)
+        if (this is CartaComodin comodin && tablero != null)
         {
-            Tablero tablero = FindFirstObjectByType<Tablero>();
-            comodin?.ConfigurarValorInicial(celda, tablero);
+            comodin.ConfigurarValorInicial(celda, tablero);
         }
 
-        GameController gc = FindFirstObjectByType<GameController>();
         if (gc != null && gc.manoActual.Contains(this))
         {
             gc.manoActual.Remove(this);
@@ -220,87 +229,19 @@ public class Carta : MonoBehaviour
         sm?.ActualizarPuntajes();
 
         boxCollider.enabled = true;
-
-        Debug.Log($"{name} colocado suavemente en celda {celda.column},{celda.row}");
-    }
-
-    private void DetectarTrioJugador(Cell celda)
-    {
-        Tablero tablero = FindFirstObjectByType<Tablero>();
-        if (tablero == null) return;
-
-        if (!tablero.EsFilaJugador(celda.row))
-            return;
-
-        int valorActual = valor;
-        int coincidencias = 0;
-
-        for (int c = 0; c < tablero.columns; c++)
-        {
-            Cell otra = tablero.ObtenerCelda(c, celda.row)?.GetComponent<Cell>();
-            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
-                coincidencias++;
-        }
-
-        for (int f = 0; f < tablero.filasJugador; f++)
-        {
-            Cell otra = tablero.ObtenerCelda(celda.column, f)?.GetComponent<Cell>();
-            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
-                coincidencias++;
-        }
-
-        if (coincidencias >= 3)
-        {
-            GameController gc = FindFirstObjectByType<GameController>();
-            if (gc != null && gc.ia != null)
-                gc.ia.OnTrioJugadorDetectado();
-        }
-    }
-
-    private void DetectarTrioTutorial(Cell celda)
-    {
-        if (!(FindFirstObjectByType<GameController>()?.ia is IA_Tuto))
-            return;
-
-        Tablero tablero = FindFirstObjectByType<Tablero>();
-        if (tablero == null) return;
-
-        if (!tablero.EsFilaRival(celda.row))
-            return;
-
-        int valorActual = valor;
-        int coincidencias = 0;
-
-        for (int c = 0; c < tablero.columns; c++)
-        {
-            Cell otra = tablero.ObtenerCelda(c, celda.row)?.GetComponent<Cell>();
-            if (otra != null && otra.isOccupied && otra.carta.valor == valorActual)
-                coincidencias++;
-        }
-
-        if (coincidencias >= 3)
-        {
-            IA_Tuto iaTuto = FindFirstObjectByType<IA_Tuto>();
-            iaTuto?.NotificarTrioTutorial();
-        }
     }
     #endregion
 
-    #region Regla de eliminaciòn
+    #region Regla de eliminación
     private void AplicarReglaEliminacion(Cell celda)
     {
-        if (!LevelManager.reglasEliminacionActivas)
-            return; 
-
-        Tablero tablero = FindFirstObjectByType<Tablero>();
-        if (tablero == null) return;
+        if (!LevelManager.reglasEliminacionActivas || tablero == null)
+            return;
 
         int col = celda.column;
         int fila = celda.row;
 
         bool soyJugador = tablero.EsFilaJugador(fila);
-        bool soyIA = tablero.EsFilaRival(fila);
-
         int valorColocado = valor;
 
         int filaInicioRival = soyJugador ? tablero.filasJugador : 0;
@@ -312,27 +253,17 @@ public class Carta : MonoBehaviour
             if (rivalCelda == null || !rivalCelda.isOccupied)
                 continue;
 
-            Carta otraCarta = rivalCelda.GetComponentInChildren<Carta>();
-            if (otraCarta == null) continue;
+            Carta otra = rivalCelda.GetComponentInChildren<Carta>();
+            if (otra == null)
+                continue;
 
-            if (otraCarta.valor == valorColocado)
+            if (otra.valor == valorColocado)
             {
-                Debug.Log($"ELIMINACIÓN: {otraCarta.valor} en columna {col}");
-
-                if (soyJugador)
-                {
-                    GameController gc = FindFirstObjectByType<GameController>();
-                    if (gc != null && gc.ia != null)
-                    {
-                        gc.ia.OnCartaEliminadaPorJugador();
-                    }
-                }
+                if (soyJugador && gc != null && gc.ia != null)
+                    gc.ia.OnCartaEliminadaPorJugador();
 
                 rivalCelda.SetOccupied(null);
-                Destroy(otraCarta.gameObject);
-
-                ScoreManager sm = FindFirstObjectByType<ScoreManager>();
-                sm?.ActualizarPuntajes();
+                Destroy(otra.gameObject);
             }
         }
     }
@@ -350,7 +281,7 @@ public class Carta : MonoBehaviour
     }
     #endregion
 
-    #region Robar carta
+    #region Robo desde mazo
     public void AnimarRoboDesdeMazo(
         Transform mazo,
         Transform mano,
@@ -362,10 +293,7 @@ public class Carta : MonoBehaviour
             StopCoroutine(moverCoroutine);
 
         moverCoroutine = StartCoroutine(RoboDesdeMazoCoroutine(
-            mazo,
-            mano,
-            posicionFinalLocal,
-            onFinish
+            mazo, mano, posicionFinalLocal, onFinish
         ));
     }
 
@@ -381,11 +309,9 @@ public class Carta : MonoBehaviour
 
         transform.SetParent(null, true);
         transform.position = mazo.position;
-
         MostrarDorso();
 
         Vector3 inicio = transform.position;
-
         Vector3 destino = mano.TransformPoint(posicionFinalLocal);
 
         float t = 0f;
