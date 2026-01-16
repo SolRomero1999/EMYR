@@ -119,6 +119,54 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9304383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9304384}
+  - component: {fileID: 9304385}
+  m_Layer: 0
+  m_Name: ScoreFeedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9304384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9304383}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 929869412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9304385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9304383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a22d235de3eec24c80f38af35bb70c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreFeedbackVisualizer
+  marcoPrefab: {fileID: 4255821612556819612, guid: 20388fb64a4c3ed4eb3b75c1c9d046d2, type: 3}
+  colorTrio: {r: 0, g: 1, b: 0, a: 1}
+  colorCuarteto: {r: 0.2, g: 0.8, b: 1, a: 1}
+  padding: 0.3
 --- !u!1 &30376814
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,7 +3912,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9304384}
+  - {fileID: 1677875360}
   m_Father: {fileID: 1953153008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &929869413
@@ -3879,7 +3929,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aab0ad269932d53468974edcb8de364a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
-  tablero: {fileID: 0}
+  tablero: {fileID: 1331343205}
+  feedback: {fileID: 9304385}
+  textAnimator: {fileID: 1677875361}
   puntajeTotalJugador: {fileID: 335486882}
   puntajeTotalIA: {fileID: 180748829}
   puntajeFilasJugador:
@@ -6717,6 +6769,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637539323}
   m_CullTransparentMesh: 1
+--- !u!1 &1677875359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1677875360}
+  - component: {fileID: 1677875361}
+  m_Layer: 0
+  m_Name: 'ScoreTextAnimator '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1677875360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677875359}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 929869412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677875361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677875359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85649e31b1a07a242827ee807ef5aeb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreTextAnimator
+  escalaMax: 1.3
+  duracionPop: 0.25
+  velocidadConteo: 0.02
+  colorTrio: {r: 0, g: 1, b: 0, a: 1}
+  colorCuarteto: {r: 0.2, g: 0.8, b: 1, a: 1}
 --- !u!1 &1729486671
 GameObject:
   m_ObjectHideFlags: 0
@@ -9489,7 +9590,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
   game: {fileID: 1283011276}
-  delayIA: 1
+  delayIAMin: 2
+  delayIAMax: 5
+  dialogoResultadoNivel: {fileID: 0}
+  cheatsActivos: 1
+  cheatVictoria: 118
+  cheatDerrota: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

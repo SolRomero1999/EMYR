@@ -27,6 +27,7 @@ public class Carta : MonoBehaviour
     private bool hoverAnterior = false;
     private bool seleccionada = false;
     private bool enAnimacion = false;
+    private Vector3 offsetVisualExtra = Vector3.zero;
 
     [Header("Animación de colocación")]
     [SerializeField] private float duracionMovimientoACelda = 0.25f;
@@ -149,7 +150,7 @@ public class Carta : MonoBehaviour
     #region Movimiento visual
     private void ActualizarPosicion()
     {
-        Vector3 objetivo = posicionOriginal;
+        Vector3 objetivo = posicionOriginal + offsetVisualExtra;
 
         if (seleccionada)
             objetivo += Vector3.up * alturaSeleccion;
@@ -167,6 +168,11 @@ public class Carta : MonoBehaviour
     {
         posicionOriginal = nuevaPosicion;
         transform.localPosition = nuevaPosicion;
+    }
+
+    public void SetOffsetVisual(Vector3 offset)
+    {
+        offsetVisualExtra = offset;
     }
     #endregion
 

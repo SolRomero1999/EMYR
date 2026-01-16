@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2794937021866276504}
   - component: {fileID: 7556106635927239915}
   - component: {fileID: 6456912716322573938}
+  - component: {fileID: -7421397370749856236}
   m_Layer: 3
   m_Name: Carta
   m_TagString: Untagged
@@ -110,6 +111,7 @@ MonoBehaviour:
   dorso: {fileID: 0}
   enMano: 0
   celdaActual: {fileID: 0}
+  duracionMovimientoACelda: 0.25
 --- !u!61 &6456912716322573938
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -156,3 +158,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.96351, y: 3.219993}
   m_EdgeRadius: 0
+--- !u!114 &-7421397370749856236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652647680820846849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b069697355890ae46a1f6499faf37c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboCardAnimator
+  escalaCombo: 1.12
+  duracionEntrada: 0.2
+  alturaFlotacion: 0.08
+  velocidadFlotacion: 3
+  duracionTotal: 1.2
