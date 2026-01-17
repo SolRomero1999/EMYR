@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &30376815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -192,17 +192,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30376814}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 0.75}
+  m_LocalScale: {x: 1.4999999, y: 1.4999999, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 335486884}
-  m_Father: {fileID: 2090664668}
+  m_Father: {fileID: 213011337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -325, y: -420}
+  m_AnchoredPosition: {x: -560, y: -420}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &30376816
@@ -746,6 +746,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212077590}
   m_CullTransparentMesh: 1
+--- !u!1 &213011336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213011337}
+  m_Layer: 5
+  m_Name: Puntaje final
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &213011337
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213011336}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1113079630}
+  - {fileID: 30376815}
+  m_Father: {fileID: 2090664668}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &220896666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4916,7 +4953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1113079630
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4924,17 +4961,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1113079629}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 0.75}
+  m_LocalScale: {x: 1.4999999, y: 1.4999999, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 180748831}
-  m_Father: {fileID: 2090664668}
+  m_Father: {fileID: 213011337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 325, y: -420}
+  m_AnchoredPosition: {x: 560, y: -420}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113079631
@@ -8824,6 +8861,7 @@ GameObject:
   - component: {fileID: 2090664671}
   - component: {fileID: 2090664670}
   - component: {fileID: 2090664669}
+  - component: {fileID: 2090664672}
   m_Layer: 5
   m_Name: Puntaje
   m_TagString: Untagged
@@ -8857,8 +8895,7 @@ RectTransform:
   - {fileID: 212077591}
   - {fileID: 543309800}
   - {fileID: 419706801}
-  - {fileID: 1113079630}
-  - {fileID: 30376815}
+  - {fileID: 213011337}
   m_Father: {fileID: 93071951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8929,6 +8966,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 10
   m_TargetDisplay: 0
+--- !u!114 &2090664672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090664667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0667238767a0c0a4b86de022a5c3db74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EndGameScoreAnimator
+  scoreManager: {fileID: 929869413}
+  panelFinal: {fileID: 213011336}
+  contadorJugador: {fileID: 335486882}
+  contadorIA: {fileID: 180748829}
+  velocidadConteo: 10
+  pausaEntreJugadores: 0.6
 --- !u!1 &2111920562
 GameObject:
   m_ObjectHideFlags: 0

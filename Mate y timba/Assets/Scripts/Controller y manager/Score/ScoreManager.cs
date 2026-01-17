@@ -12,6 +12,8 @@ public class ScoreManager : MonoBehaviour
     [Header("UI Puntajes")]
     public TextMeshProUGUI puntajeTotalJugador;
     public TextMeshProUGUI puntajeTotalIA;
+    public int TotalJugador { get; private set; }
+    public int TotalIA { get; private set; }
 
     public TextMeshProUGUI[] puntajeFilasJugador;
     public TextMeshProUGUI[] puntajeFilasIA;
@@ -289,7 +291,7 @@ public class ScoreManager : MonoBehaviour
     }
     #endregion
 
-    private void CalcularTotales()
+    public void CalcularTotales()
     {
         int mitad = tablero.rows / 2;
         int totalJugador = 0;
@@ -306,6 +308,9 @@ public class ScoreManager : MonoBehaviour
 
         for (int j = 0; j < Mathf.Min(tablero.columns, puntajeColumnasIA.Length); j++)
             totalIA += int.Parse(puntajeColumnasIA[j].text);
+
+        TotalJugador = totalJugador;
+        TotalIA = totalIA;
 
         puntajeTotalJugador.text = totalJugador.ToString();
         puntajeTotalIA.text = totalIA.ToString();

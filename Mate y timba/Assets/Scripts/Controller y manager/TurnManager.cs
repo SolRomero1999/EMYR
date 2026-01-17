@@ -162,9 +162,32 @@ public class TurnManager : MonoBehaviour
         if (partidaTerminada) return;
 
         partidaTerminada = true;
-        StopAllCoroutines(); 
+        StopAllCoroutines();
 
         bool victoriaJugador = CalcularVictoriaJugador();
+
+        EndGameScoreAnimator animator =
+            FindFirstObjectByType<EndGameScoreAnimator>();
+
+        if (animator != null)
+        {
+            animator.OnConteoFinalizado = () =>
+            {
+                StartCoroutine(EsperarYResolverResultado(victoriaJugador));
+            };
+
+            animator.MostrarResultadoFinal();
+        }
+        else
+        {
+            ResolverResultado(victoriaJugador);
+        }
+    }
+
+    private IEnumerator EsperarYResolverResultado(bool victoriaJugador)
+    {
+        yield return new WaitForSeconds(1.5f);
+
         ResolverResultado(victoriaJugador);
     }
     #endregion
