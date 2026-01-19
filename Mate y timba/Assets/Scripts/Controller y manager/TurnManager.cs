@@ -244,13 +244,11 @@ public class TurnManager : MonoBehaviour
     {
         if (LevelManager.CurrentLevel == 0)
         {
-            if (victoriaJugador)
-            {
-                LevelManager.tutorialDialogoVisto = true;
-                LevelManager.UltimoNivelCompletado = 0;
-                LevelManager.CurrentLevel = 1;
-            }
-            else
+            LevelManager.tutorialDialogoVisto = true;
+            LevelManager.UltimoNivelCompletado = 0;
+            LevelManager.CurrentLevel = 1;
+
+            if (!victoriaJugador)
             {
                 LevelManagerFlags.VieneDeDerrota = true;
             }

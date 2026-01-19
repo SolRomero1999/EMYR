@@ -2627,7 +2627,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 4130640169021434097, guid: 13034697eff527046beceb356be151b0, type: 3}
+  m_Sprite: {fileID: 8802559959546800957, guid: d405605a5050fb14c861dfc7489019a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2901,7 +2901,7 @@ Transform:
   m_GameObject: {fileID: 665562998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08, z: 0}
+  m_LocalPosition: {x: 0, y: -0.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4106,10 +4106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a22d235de3eec24c80f38af35bb70c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreFeedbackVisualizer
-  marcoPrefab: {fileID: 4255821612556819612, guid: 20388fb64a4c3ed4eb3b75c1c9d046d2, type: 3}
-  colorTrio: {r: 0, g: 1, b: 0, a: 1}
-  colorCuarteto: {r: 0.2, g: 0.8, b: 1, a: 1}
-  padding: 0.3
 --- !u!1 &1036898207
 GameObject:
   m_ObjectHideFlags: 0

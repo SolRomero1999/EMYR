@@ -114,9 +114,9 @@ public class GameController : MonoBehaviour
         if (esTutorial)
         {
             int valorDemo = 2;
-            int necesarias = 3;
+            int maxPermitidas = 3;
 
-            for (int i = mazo.cartas.Count - 1; i >= 0 && cartasIA.Count < necesarias; i--)
+            for (int i = mazo.cartas.Count - 1; i >= 0 && cartasIA.Count < maxPermitidas; i--)
             {
                 if (mazo.cartas[i].valor == valorDemo)
                 {
@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (cartasIA.Count < necesarias)
+            if (cartasIA.Count < maxPermitidas)
             {
                 Debug.LogError("No hay suficientes cartas valor 2 en el mazo para el tutorial");
             }
@@ -134,6 +134,13 @@ public class GameController : MonoBehaviour
             {
                 Carta extra = mazo.RobarCarta();
                 if (extra == null) break;
+
+                if (extra.valor == valorDemo)
+                {
+                    mazo.cartas.Add(extra);
+                    continue;
+                }
+
                 cartasIA.Add(extra);
             }
         }

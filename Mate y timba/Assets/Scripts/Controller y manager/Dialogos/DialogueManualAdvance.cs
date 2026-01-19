@@ -33,6 +33,12 @@ public class DialogueManualAdvance : MonoBehaviour
 
     private void SeleccionarDialogo()
     {
+        if (LevelManager.EsPostTutorial())
+        {
+            lines = linesPostTutorial;
+            return;
+        }
+
         if (LevelManagerFlags.VieneDeDerrota)
         {
             lines = new string[]
@@ -45,20 +51,15 @@ public class DialogueManualAdvance : MonoBehaviour
         if (LevelManager.EsPrimerDialogo())
         {
             lines = linesInicial;
+            return;
         }
-        else if (LevelManager.EsPostTutorial())
-        {
-            lines = linesPostTutorial;
-        }
-        else
-        {
-            int nivelCompletado = LevelManager.UltimoNivelCompletado;
 
-            if (nivelCompletado == 1)
-                lines = linesPostNivel1;
-            else
-                lines = linesPostNivel2;
-        }
+        int nivelCompletado = LevelManager.UltimoNivelCompletado;
+
+        if (nivelCompletado == 1)
+            lines = linesPostNivel1;
+        else
+            lines = linesPostNivel2;
     }
 
     private void NextLine()
