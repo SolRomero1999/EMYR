@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class DialogueManualAdvance : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DialogueManualAdvance : MonoBehaviour
     [TextArea] public string[] linesPostNivel1;
     [TextArea] public string[] linesPostNivel2;
     [TextArea] public string[] linesDerrota;
+    [TextArea] public string[] linesCierre;
 
     public float charsPerSecond = 40f;
 
@@ -33,9 +35,9 @@ public class DialogueManualAdvance : MonoBehaviour
 
     private void SeleccionarDialogo()
     {
-        if (LevelManager.EsPostTutorial())
+        if (LevelManager.EsPostUltimoNivel())
         {
-            lines = linesPostTutorial;
+            lines = linesCierre;
             return;
         }
 
@@ -45,6 +47,12 @@ public class DialogueManualAdvance : MonoBehaviour
             {
                 linesDerrota[Random.Range(0, linesDerrota.Length)]
             };
+            return;
+        }
+
+        if (LevelManager.EsPostTutorial())
+        {
+            lines = linesPostTutorial;
             return;
         }
 
@@ -84,6 +92,12 @@ public class DialogueManualAdvance : MonoBehaviour
 
     private void IrASiguienteEscena()
     {
+        if (LevelManager.EsPostUltimoNivel())
+        {
+            SceneManager.LoadScene("Menu");
+            return;
+        }
+
         if (LevelManagerFlags.VieneDeDerrota)
         {
             LevelManagerFlags.VieneDeDerrota = false;

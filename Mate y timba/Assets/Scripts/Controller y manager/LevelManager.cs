@@ -41,19 +41,20 @@ public static class LevelManager
         if (CurrentLevel == 0)
         {
             SceneManager.LoadScene(SCENE_TUTORIAL);
+            return;
+        }
+
+        int index = CurrentLevel - 1;
+
+        if (index >= 0 && index < GAME_SCENES.Length)
+        {
+            Debug.Log($"Cargando nivel {CurrentLevel} -> escena: {GAME_SCENES[index]}");
+            SceneManager.LoadScene(GAME_SCENES[index]);
         }
         else
         {
-            int index = CurrentLevel - 1; 
-            if (index >= 0 && index < GAME_SCENES.Length)
-            {
-                Debug.Log($"Cargando nivel {CurrentLevel} -> escena: {GAME_SCENES[index]}");
-                SceneManager.LoadScene(GAME_SCENES[index]);
-            }
-            else
-            {
-                Debug.LogError($"No hay escena para el nivel {CurrentLevel}");
-            }
+            Debug.Log("No hay más niveles, volviendo al diálogo del nieto");
+            SceneManager.LoadScene(SCENE_DIALOGO);
         }
     }
 
@@ -62,6 +63,12 @@ public static class LevelManager
         UltimoNivelCompletado = CurrentLevel;
         CurrentLevel++;
         Debug.Log($"Nivel {UltimoNivelCompletado} completado. Avanzando a nivel {CurrentLevel}");
+    }
+
+    public static bool HayMasNiveles()
+    {
+        int index = CurrentLevel - 1;
+        return index >= 0 && index < GAME_SCENES.Length;
     }
 
     public static bool EsPrimerDialogo()
@@ -73,4 +80,11 @@ public static class LevelManager
     {
         return tutorialDialogoVisto && UltimoNivelCompletado == 0;
     }
+
+    public static bool EsPostUltimoNivel()
+    {
+        return tutorialDialogoVisto &&
+            UltimoNivelCompletado == GAME_SCENES.Length;
+    }
+
 }

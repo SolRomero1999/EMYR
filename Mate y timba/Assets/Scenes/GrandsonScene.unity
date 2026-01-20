@@ -871,6 +871,8 @@ MonoBehaviour:
   - LINEA DERROTA 3
   - LINEA DERROTA 4
   - LINEA DERROTA 5
+  linesCierre:
+  - FIN
   charsPerSecond: 40
 --- !u!1 &1953153007
 GameObject:
