@@ -123,16 +123,20 @@ public class TurnManager : MonoBehaviour
             yield break;
         }
 
-        if (game.manoIAActual.Count < game.maxCartasMano)
+        bool intentoRobar =
+            game.manoIAActual.Count < game.maxCartasMano &&
+            game.mazo.cartas.Count > 0;
+
+        if (intentoRobar)
         {
             game.ia.RobarCartaIA();
-            yield return new WaitForSeconds(0.5f);
         }
         else
         {
             game.ia.JugarTurno();
-            yield return new WaitForSeconds(0.5f);
         }
+
+        yield return new WaitForSeconds(0.5f);
 
         VerificarFinDePartida();
 
@@ -147,11 +151,23 @@ public class TurnManager : MonoBehaviour
     {
         if (partidaTerminada) return;
 
-        bool jugadorTieneCeldas = game.tablero.HayCeldasDisponiblesJugador();
-        bool iaTieneCeldas = game.tablero.HayCeldasDisponiblesIA();
         bool mazoVacio = game.mazo.cartas.Count == 0;
 
-        if (!jugadorTieneCeldas || !iaTieneCeldas || mazoVacio)
+        bool jugadorSinCartas = game.manoActual.Count == 0;
+        bool iaSinCartas = game.manoIAActual.Count == 0;
+
+        bool jugadorSinEspacio = !game.tablero.HayCeldasDisponiblesJugador();
+        bool iaSinEspacio = !game.tablero.HayCeldasDisponiblesIA();
+
+        bool jugadorNoPuedeContinuar =
+            jugadorSinEspacio ||
+            (jugadorSinCartas && mazoVacio);
+
+        bool iaNoPuedeContinuar =
+            iaSinEspacio ||
+            (iaSinCartas && mazoVacio);
+
+        if (jugadorNoPuedeContinuar || iaNoPuedeContinuar)
         {
             FinalizarPartida();
         }

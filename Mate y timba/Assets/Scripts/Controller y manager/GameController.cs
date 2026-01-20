@@ -185,6 +185,7 @@ public class GameController : MonoBehaviour
 
         if (jugadorYaRobo) return;
         if (manoActual.Count >= maxCartasMano) return;
+        if (mazo.cartas.Count == 0) return;
 
         Carta robada = mazo.RobarCarta();
         if (robada == null) return;
@@ -220,6 +221,7 @@ public class GameController : MonoBehaviour
     public void RobarCartaIA()
     {
         if (manoIAActual.Count >= maxCartasMano) return;
+        if (mazo.cartas.Count == 0) return;
 
         Carta robada = mazo.RobarCarta();
         if (robada == null) return;
