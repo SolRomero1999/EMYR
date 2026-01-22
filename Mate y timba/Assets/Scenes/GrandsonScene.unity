@@ -667,7 +667,7 @@ Transform:
   m_GameObject: {fileID: 1559600023}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.17, z: 0}
+  m_LocalPosition: {x: 0, y: -1.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -767,7 +767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000004133, y: -374}
+  m_AnchoredPosition: {x: -0.000004133, y: -397}
   m_SizeDelta: {x: 1552.1796, y: -894.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777070411
@@ -854,9 +854,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueAutoAdvance
   dialogueText: {fileID: 2070958979}
   continuarButton: {fileID: 1538300586}
+  colorNieto: {r: 0, g: 1, b: 1, a: 1}
+  colorAbuelo: {r: 0, g: 1, b: 0, a: 1}
   linesInicial:
-  - Hola
-  - "Papi dice que te gusta jugar a las cartas\u2026 \xBFQui\xE9n te ense\xF1\xF3?"
+  - "NIETO| Hola\u2026"
+  - "ABUELO| \u2026"
+  - "NIETO| Yo\u2026 soy el hijo de tu hijo."
+  - "ABUELO| \xBFEl hijo de\u2026?"
+  - "ABUELO| Ah\u2026"
+  - "ABUELO| S\xED\u2026 claro."
+  - "NIETO| Mami y papi dijeron que viniera a verte\u2026"
+  - NIETO| Que te iba a hacer bien.
+  - "ABUELO| No sabr\xEDa decirte."
+  - "NIETO| No s\xE9 bien qu\xE9 decir\u2026"
+  - "NIETO| Nunca vine a un lugar as\xED"
+  - "ABUELO| Es raro para mi tambi\xE9n. "
+  - 'NIETO| Mmm... '
+  - "NIETO| Papi me dijo que\u2026 a vos te gustaba jugar a las cartas."
+  - "ABUELO| S\xED\u2026"
+  - ABUELO| Mucho.
+  - "NIETO| \xBFQui\xE9n te ense\xF1\xF3?"
   linesPostTutorial:
   - "\xBFY jugabas a mi edad tambi\xE9n?\n//PASA AL PRIMER NIVEL"
   linesPostNivel1:

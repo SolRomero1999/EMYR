@@ -91,4 +91,10 @@ public class EndGameScoreAnimator : MonoBehaviour
 
         texto.text = objetivo.ToString();
     }
+
+    public IEnumerator AnimarContadorTutorial(TextMeshProUGUI texto, int objetivo)
+    {
+        yield return AnimarContador(texto, objetivo);
+    }
+
 }

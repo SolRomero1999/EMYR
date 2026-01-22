@@ -973,46 +973,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialDialogueController
   dialogueText: {fileID: 42407361}
   continuarButton: {fileID: 951435192}
+  endGameScoreAnimator: {fileID: 2090664672}
+  colorNieto: {r: 0, g: 1, b: 0, a: 1}
+  colorAbuelo: {r: 0, g: 1, b: 1, a: 1}
   introLines:
-  - "Pero mira quien esta ac\xE1, che."
-  - "Hola, campe\xF3n."
-  - "Hace rato que no te ve\xEDa por ac\xE1."
-  - "\xBFSab\xE9s?"
-  - "Cuando uno est\xE1 mucho tiempo en este lugar, los d\xEDas se parecen todos\u2026"
-  - Pero hoy es distinto.
-  - "\xBFEs muy raro verme ac\xE1?"
-  - ...
-  - Si es incomodo hablar no hace falta hacerlo, viste.
-  - "Las cartas siempre me acompa\xF1aron."
-  - "Cuando no hab\xEDa mucho que decir, baraj\xE1bamos\u2026 y listo."
-  - "Si quer\xE9s, te puedo ense\xF1ar a jugar mi juego favorito. "
-  - "Mir\xE1 el tablero."
-  - Es chiquito, como para aprender despacio.
+  - "ABUELO| Pero mir\xE1 qui\xE9n est\xE1 ac\xE1, che"
+  - "ABUELO| Hola, campe\xF3n."
+  - NIETO| Hola, abuelo.
+  - "ABUELO| Hace rato que no te ve\xEDa."
+  - "NIETO| Mam\xE1 me trajo."
+  - "ABUELO| \xBFSab\xE9s?"
+  - "ABUELO| Cuando uno est\xE1 mucho tiempo ac\xE1, los d\xEDas se parecen todos\u2026"
+  - "NIETO| \xBFTodos iguales?"
+  - ABUELO| Todos iguales.
+  - ABUELO| Pero hoy es distinto.
+  - "NIETO| \xBFPor qu\xE9?"
+  - ABUELO| Porque viniste vos.
+  - NIETO| ...
+  - "ABUELO|\xBFEs muy raro verme ac\xE1?"
+  - "NIETO| Un poco\u2026"
+  - "ABUELO| Est\xE1 bien."
+  - ABUELO| Si es incomodo hablar no hace falta hacerlo, viste.
+  - "NIETO| \u2026"
+  - "ABUELO| Las cartas siempre me acompa\xF1aron."
+  - "ABUELO| Cuando no hab\xEDa mucho que decir, baraj\xE1bamos\u2026 y listo."
+  - "NIETO| \xBFJugamos?"
+  - ABUELO| Jugamos.
+  - "ABUELO| Si quer\xE9s, te puedo ense\xF1ar a jugar mi juego favorito. "
+  - "ABUELO| Mir\xE1 el tablero."
+  - ABUELO| Es chiquito, como para aprender despacio.
   explicacionLines:
-  - Ese lado amarillo es el tuyo.
-  - "El rojo\u2026 bueno, ese es el m\xEDo."
-  - Cada uno juega de su lado, poniendo cartas en los espacios libres.
-  - Cada carta tiene un valor.
-  - Ese numerito es importante.
-  - "Cuando pon\xE9s una carta, suma puntos en su fila y tambi\xE9n en su columna."
-  - No hay truco.
+  - "NIETO| \xBFCu\xE1l es mi lado? "
+  - ABUELO| Ese lado amarillo es el tuyo.
+  - "ABUELO| El rojo\u2026 bueno, ese es el m\xEDo."
+  - 'NIETO| Me gusta el amarillo. '
+  - ABUELO| Por eso mismo.
+  - ABUELO| Cada uno juega de su lado, poniendo cartas en los espacios libres.
+  - "NIETO| \xBFD\xF3nde quiera?"
+  - "ABUELO| Donde quieras\u2026"
+  - "ABUELO| Pero pens\xE1ndolo un poquito."
+  - ABUELO| Cada carta tiene un valor.
+  - "ABUELO| \xBFViste ese numerito? El que esta en las esquinas de las cartas. "
+  - "NIETO| Aj\xE1."
+  - ABUELO| Ese numerito es importante.
+  - "ABUELO| Cuando pon\xE9s una carta, suma puntos en su fila y tambi\xE9n en su
+    columna."
+  - "NIETO| \xBFEn las dos?"
+  - ABUELO| En las dos.
+  - ABUELO| Dos pajaros de un tiro.
+  - ABUELO| No hay truco.
   - "Es sumar\u2026 y pensar un poquito."
+  - "ABUELO| Es sumar\u2026 y pensar un poquito."
   trioLines:
-  - "Ah\u2026 y prest\xE1 atenci\xF3n a esto, que es lo lindo del juego."
-  - "Si complet\xE1s una fila o una columna con cartas del mismo valor hac\xE9s un
-    tr\xEDo."
-  - "Y ese tr\xEDo vale m\xE1s\u2026 se suman los valores de las cartas y se multiplica
-    por tres."
-  - "Como cuando hac\xE9s algo bien y te dan un premio extra."
-  - "Pero bueno, ac\xE1 no importa si gan\xE1s o perd\xE9s."
-  - "Lo importante es aprender\u2026 y pasar el rato juntos."
-  - "Dale, jug\xE1 tu siguiente carta. "
-  - Yo te miro.
+  - "ABUELO| Ah\u2026 y prest\xE1 atenci\xF3n a esto, que es lo lindo del juego."
+  - "NIETO| \xBFLo lindo?"
+  - "ABUELO| Si complet\xE1s una fila o una columna con cartas del mismo valor hac\xE9s
+    un tr\xEDo."
+  - "NIETO| \xBFTres iguales?"
+  - ABUELO| Tres iguales.
+  - "ABUELO| Y ese tr\xEDo vale m\xE1s\u2026 se suman los valores de las cartas y
+    se multiplica por tres."
+  - "NIETO| Es un mont\xF3n."
+  - ABUELO| Es un premio.
+  - 'ABUELO| Por hacerlo bien. '
+  - "ABUELO| Dale, jug\xE1 tu siguiente carta. "
+  - ABUELO| Yo te miro.
+  conteoJugadorLines:
+  - "ABUELO| Bueno\u2026"
+  - "ABUELO| Vamos a contar para ver qui\xE9n gan\xF3."
+  - "ABUELO| De tu lado del tablero est\xE1n tus puntos finales."
+  conteoIALines:
+  - "NIETO| \xBFY los tuyos?"
+  - "ABUELO| Del otro lado. Esos son los m\xEDos."
   victoriaLines:
-  - Parece que ya entendiste como va esto.
+  - "ABUELO| Mir\xE1 vos\u2026"
+  - ABUELO| Parece que ya entendiste como va esto.
+  - "NIETO| \xBFGan\xE9?"
+  - ABUELO| Ganaste.
   derrotaLines:
-  - "Bueno, esto es cuesti\xF3n de pr\xE1ctica, ya le vas a agarrar la mano."
+  - "ABUELO| Bueno, esto es cuesti\xF3n de pr\xE1ctica, ya le vas a agarrar la mano."
   charsPerSecond: 30
+  pausaAntesConteo: 1
 --- !u!1 &243111671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,8 +1271,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000004133, y: -374}
-  m_SizeDelta: {x: 1552.1796, y: -894.24}
+  m_AnchoredPosition: {x: -0.000004133, y: -384.5}
+  m_SizeDelta: {x: 1552.1796, y: -915.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &275481822
 MonoBehaviour:

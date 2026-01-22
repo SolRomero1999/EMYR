@@ -9,6 +9,10 @@ public class DialogueManualAdvance : MonoBehaviour
     public TMP_Text dialogueText;
     public Button continuarButton;
 
+    [Header("Colores de diálogo")]
+    public Color colorNieto;
+    public Color colorAbuelo;
+
     [Header("Diálogos")]
     [TextArea] public string[] linesInicial;
     [TextArea] public string[] linesPostTutorial;
@@ -81,7 +85,7 @@ public class DialogueManualAdvance : MonoBehaviour
         if (isTyping)
         {
             StopCoroutine(typingCoroutine);
-            dialogueText.text = lines[Mathf.Clamp(index - 1, 0, lines.Length - 1)];
+            MostrarLineaCompleta(lines[Mathf.Clamp(index - 1, 0, lines.Length - 1)]);
             isTyping = false;
             return;
         }
@@ -120,13 +124,48 @@ public class DialogueManualAdvance : MonoBehaviour
         isTyping = true;
         dialogueText.text = "";
 
-        foreach (char c in line)
+        string speaker = "";
+        string content = line;
+
+        if (line.Contains("|"))
+        {
+            var split = line.Split('|');
+            speaker = split[0];
+            content = split[1];
+
+            if (speaker == "NIETO")
+                dialogueText.color = colorNieto;
+            else if (speaker == "ABUELO")
+                dialogueText.color = colorAbuelo;
+        }
+
+        foreach (char c in content)
         {
             dialogueText.text += c;
             yield return new WaitForSeconds(1f / charsPerSecond);
         }
 
         isTyping = false;
+    }
+
+    private void MostrarLineaCompleta(string line)
+    {
+        string speaker = "";
+        string content = line;
+
+        if (line.Contains("|"))
+        {
+            var split = line.Split('|', 2);
+            speaker = split[0];
+            content = split[1];
+
+            if (speaker == "NIETO")
+                dialogueText.color = colorNieto;
+            else if (speaker == "ABUELO")
+                dialogueText.color = colorAbuelo;
+        }
+
+        dialogueText.text = content;
     }
 
     private void OnDestroy()

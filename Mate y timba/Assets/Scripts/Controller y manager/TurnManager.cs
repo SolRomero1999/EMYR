@@ -4,6 +4,7 @@ using System.Collections;
 public class TurnManager : MonoBehaviour
 {
     public GameController game;
+
     [Header("Tiempo de reacción IA")]
     public float delayIAMin = 2f;
     public float delayIAMax = 5f;
@@ -73,11 +74,6 @@ public class TurnManager : MonoBehaviour
     #endregion
 
     #region Turno Jugador
-    public bool EsTurnoJugador()
-    {
-        return turnoJugador && !partidaTerminada;
-    }
-
     private void IniciarTurnoJugador()
     {
         if (partidaTerminada) return;
@@ -128,13 +124,9 @@ public class TurnManager : MonoBehaviour
             game.mazo.cartas.Count > 0;
 
         if (intentoRobar)
-        {
             game.ia.RobarCartaIA();
-        }
         else
-        {
             game.ia.JugarTurno();
-        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -143,7 +135,6 @@ public class TurnManager : MonoBehaviour
         if (!partidaTerminada)
             IniciarTurnoJugador();
     }
-    
     #endregion
 
     #region Fin de Partida
@@ -182,6 +173,19 @@ public class TurnManager : MonoBehaviour
 
         bool victoriaJugador = CalcularVictoriaJugador();
 
+        if (dialogoResultado != null)
+        {
+            bool tieneDialogo =
+                (victoriaJugador && dialogoResultado.TieneDialogoVictoria()) ||
+                (!victoriaJugador && dialogoResultado.TieneDialogoDerrota());
+
+            if (tieneDialogo)
+            {
+                ResolverResultado(victoriaJugador);
+                return;
+            }
+        }
+
         EndGameScoreAnimator animator =
             FindFirstObjectByType<EndGameScoreAnimator>();
 
@@ -203,7 +207,6 @@ public class TurnManager : MonoBehaviour
     private IEnumerator EsperarYResolverResultado(bool victoriaJugador)
     {
         yield return new WaitForSeconds(1.5f);
-
         ResolverResultado(victoriaJugador);
     }
     #endregion
@@ -265,22 +268,16 @@ public class TurnManager : MonoBehaviour
             LevelManager.CurrentLevel = 1;
 
             if (!victoriaJugador)
-            {
                 LevelManagerFlags.VieneDeDerrota = true;
-            }
 
             LevelManager.IrADialogo();
             return;
         }
 
         if (victoriaJugador)
-        {
             LevelManager.AvanzarNivel();
-        }
         else
-        {
             LevelManagerFlags.VieneDeDerrota = true;
-        }
 
         StartCoroutine(VolverADialogo());
     }

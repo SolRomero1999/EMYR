@@ -5,51 +5,55 @@ using System.Collections;
 
 public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
 {
-    #region Referencias UI
+    #region UI
     public TMP_Text dialogueText;
     public Button continuarButton;
+    public EndGameScoreAnimator endGameScoreAnimator;
     #endregion
 
-    #region Líneas de diálogo
-    [Header("Diálogo inicial del abuelo")]
+    #region Colores de diálogo
+    public Color colorNieto;
+    public Color colorAbuelo;
+    #endregion
+
+    #region Diálogos
     [TextArea] public string[] introLines;
-
-    [Header("Diálogo explicativo")]
     [TextArea] public string[] explicacionLines;
-
-    [Header("Diálogo después del trío")]
     [TextArea] public string[] trioLines;
-
-    [Header("Diálogo final - Victoria")]
+    [TextArea] public string[] conteoJugadorLines;
+    [TextArea] public string[] conteoIALines;
     [TextArea] public string[] victoriaLines;
-
-    [Header("Diálogo final - Derrota")]
     [TextArea] public string[] derrotaLines;
     #endregion
 
-    #region Configuración
+    #region Config
     public float charsPerSecond = 40f;
+    public float pausaAntesConteo = 1f;
     #endregion
 
-    #region Estado interno
-    private int index = 0;
-    private bool isTyping = false;
+    #region Estado
+    int index = 0;
+    bool isTyping;
 
-    private bool enExplicacion = false;
-    private bool esperandoVistaTablero = false;
-    private bool enDialogoTrio = false;
-    private bool enDialogoFinal = false;
-    private bool esVictoria = false;
+    bool enExplicacion;
+    bool enDialogoTrio;
+    bool enDialogoFinal;
+    bool esVictoria;
 
-    private Coroutine typingCoroutine;
-    private System.Action callbackFinDialogoFinal;
+    bool enConteoJugador;
+    bool enConteoIA;
+
+    Coroutine typingCoroutine;
+    System.Action callbackFinal;
     #endregion
 
-    #region Unity Events
-    private void Start()
+    #region Unity
+    void Start()
     {
         continuarButton.onClick.AddListener(NextLine);
         IA_Tuto.OnTrioTutorialCompletado += IniciarDialogoTrio;
+
+        FindFirstObjectByType<TurnManager>()?.BloquearInputJugador();
 
         if (LevelManager.tutorialDialogoVisto)
         {
@@ -58,32 +62,51 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
         }
 
         dialogueText.text = "";
-        index = 0;
-        gameObject.SetActive(true);
-
-        BlinkController.Instance.StartBlink(() =>
-        {
-            CameraController.Instance.IrADialogo();
-        });
-
+        BlinkController.Instance.StartBlink(CameraController.Instance.IrADialogo);
         NextLine();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         continuarButton.onClick.RemoveListener(NextLine);
         IA_Tuto.OnTrioTutorialCompletado -= IniciarDialogoTrio;
     }
     #endregion
 
-    #region Flujo principal de diálogo
-    private void NextLine()
+    #region Interface IResultadoDialogo
+    public bool TieneDialogoVictoria()
+    {
+        return victoriaLines != null && victoriaLines.Length > 0;
+    }
+
+    public bool TieneDialogoDerrota()
+    {
+        return derrotaLines != null && derrotaLines.Length > 0;
+    }
+    #endregion
+
+    #region Flujo principal
+    void NextLine()
     {
         if (isTyping)
         {
             StopCoroutine(typingCoroutine);
-            dialogueText.text = ObtenerLineaActual();
+            MostrarLineaCompleta(ObtenerLineaActual());
             isTyping = false;
+            return;
+        }
+
+        if (enConteoJugador && index >= conteoJugadorLines.Length)
+        {
+            enConteoJugador = false;
+            StartCoroutine(SecuenciaConteoJugador());
+            return;
+        }
+
+        if (enConteoIA && index >= conteoIALines.Length)
+        {
+            enConteoIA = false;
+            StartCoroutine(SecuenciaConteoIA());
             return;
         }
 
@@ -97,33 +120,32 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
 
             if (enDialogoTrio)
             {
-                StartCoroutine(FinalizarDialogoTrio());
+                enDialogoTrio = false;
                 return;
             }
 
-            if (!enExplicacion && !esperandoVistaTablero)
+            if (!enExplicacion)
             {
-                StartCoroutine(MirarTableroYVolver());
+                StartCoroutine(MirarTablero());
                 return;
             }
 
-            if (enExplicacion)
-            {
-                FinalizarTutorialDialogo();
-                return;
-            }
+            FinalizarTutorial();
+            return;
         }
 
         typingCoroutine = StartCoroutine(TypeLine(LineasActuales()[index]));
         index++;
     }
 
-    private IEnumerator TypeLine(string line)
+    IEnumerator TypeLine(string line)
     {
         isTyping = true;
         dialogueText.text = "";
 
-        foreach (char c in line)
+        string content = ParseSpeakerAndColor(line);
+
+        foreach (char c in content)
         {
             dialogueText.text += c;
             yield return new WaitForSeconds(1f / charsPerSecond);
@@ -133,138 +155,169 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
     }
     #endregion
 
-    #region Secuencias especiales
-    private IEnumerator MirarTableroYVolver()
+    #region Resultado final
+    public void MostrarDialogoVictoria(System.Action alFinal)
     {
-        esperandoVistaTablero = true;
+        callbackFinal = alFinal;
+        IniciarConteo(true);
+    }
+
+    public void MostrarDialogoDerrota(System.Action alFinal)
+    {
+        callbackFinal = alFinal;
+        IniciarConteo(false);
+    }
+
+    void IniciarConteo(bool victoria)
+    {
+        esVictoria = victoria;
+        index = 0;
         dialogueText.text = "";
 
-        TurnManager tm = FindFirstObjectByType<TurnManager>();
-        tm?.BloquearInputJugador(); 
+        enConteoJugador = true;
 
-        yield return BlinkYCambiarCamara(CameraController.Instance.IrAGameplay);
-        yield return new WaitForSeconds(2f);
-        yield return BlinkYCambiarCamara(CameraController.Instance.IrADialogo);
-
-        enExplicacion = true;
-        esperandoVistaTablero = false;
-        index = 0;
-
+        BlinkController.Instance.StartBlink(CameraController.Instance.IrADialogo);
         NextLine();
     }
 
-    private void IniciarDialogoTrio()
+    IEnumerator SecuenciaConteoJugador()
     {
-        if (enDialogoTrio || enDialogoFinal) return;
+        yield return Blink(CameraController.Instance.IrAGameplay);
+        yield return new WaitForSeconds(pausaAntesConteo);
 
-        gameObject.SetActive(true);
+        endGameScoreAnimator.scoreManager.ActualizarPuntajes();
+        endGameScoreAnimator.scoreManager.CalcularTotales();
+
+        endGameScoreAnimator.panelFinal.SetActive(true);
+
+        endGameScoreAnimator.contadorJugador.text = "0";
+        endGameScoreAnimator.contadorIA.text = "0";
+
+        yield return endGameScoreAnimator.AnimarContadorTutorial(
+            endGameScoreAnimator.contadorJugador,
+            endGameScoreAnimator.scoreManager.TotalJugador
+        );
+
+        yield return Blink(CameraController.Instance.IrADialogo);
+
+        enConteoIA = true;
+        index = 0;
+        NextLine();
+    }
+
+    IEnumerator SecuenciaConteoIA()
+    {
+        yield return Blink(CameraController.Instance.IrAGameplay);
+        yield return new WaitForSeconds(pausaAntesConteo);
+
+        endGameScoreAnimator.contadorJugador.text =
+            endGameScoreAnimator.scoreManager.TotalJugador.ToString();
+
+        endGameScoreAnimator.contadorIA.text = "0";
+
+        yield return endGameScoreAnimator.AnimarContadorTutorial(
+            endGameScoreAnimator.contadorIA,
+            endGameScoreAnimator.scoreManager.TotalIA
+        );
+
+        yield return Blink(CameraController.Instance.IrADialogo);
+
+        IniciarDialogoFinal(esVictoria);
+    }
+
+    void IniciarDialogoFinal(bool victoria)
+    {
+        enDialogoFinal = true;
+        index = 0;
+        dialogueText.text = "";
+        NextLine();
+    }
+
+    void FinalizarDialogoFinal()
+    {
+        enDialogoFinal = false;
+        gameObject.SetActive(false);
+        callbackFinal?.Invoke();
+        callbackFinal = null;
+    }
+    #endregion
+
+    #region Otros
+    IEnumerator MirarTablero()
+    {
+        dialogueText.text = "";
+        yield return Blink(CameraController.Instance.IrAGameplay);
+        yield return new WaitForSeconds(2f);
+        yield return Blink(CameraController.Instance.IrADialogo);
+
+        enExplicacion = true;
+        index = 0;
+        NextLine();
+    }
+
+    void IniciarDialogoTrio()
+    {
         enDialogoTrio = true;
         index = 0;
-
-        StartCoroutine(BlinkYCambiarCamara(CameraController.Instance.IrADialogo, NextLine));
-    }
-
-    private IEnumerator FinalizarDialogoTrio()
-    {
         dialogueText.text = "";
-
-        yield return BlinkYCambiarCamara(CameraController.Instance.IrAGameplay);
-
-        enDialogoTrio = false;
-        gameObject.SetActive(false);
+        BlinkController.Instance.StartBlink(CameraController.Instance.IrADialogo);
+        NextLine();
     }
 
-    private void FinalizarTutorialDialogo()
+    void FinalizarTutorial()
     {
         LevelManager.tutorialDialogoVisto = true;
-
-        TurnManager tm = FindFirstObjectByType<TurnManager>();
-        tm?.HabilitarInputJugador(); 
-
-        BlinkController.Instance.StartBlink(() =>
-        {
-            CameraController.Instance.IrAGameplay();
-        });
-
-        gameObject.SetActive(false);
-    }
-    #endregion
-
-    #region Diálogo de resultado (IResultadoDialogo)
-    public bool TieneDialogoVictoria() => victoriaLines.Length > 0;
-    public bool TieneDialogoDerrota() => derrotaLines.Length > 0;
-
-    public void MostrarDialogoVictoria(System.Action alFinalizar)
-    {
-        callbackFinDialogoFinal = alFinalizar;
-        IniciarDialogoFinal(true);
-    }
-
-    public void MostrarDialogoDerrota(System.Action alFinalizar)
-    {
-        callbackFinDialogoFinal = alFinalizar;
-        IniciarDialogoFinal(false);
-    }
-
-    private void IniciarDialogoFinal(bool victoria)
-    {
-        esVictoria = victoria;
-        enDialogoFinal = true;
-
-        gameObject.SetActive(true);
+        FindFirstObjectByType<TurnManager>()?.HabilitarInputJugador();
+        BlinkController.Instance.StartBlink(CameraController.Instance.IrAGameplay);
         dialogueText.text = "";
-        index = 0;
-
-        StartCoroutine(BlinkYCambiarCamara(CameraController.Instance.IrADialogo, NextLine));
     }
 
-    private void FinalizarDialogoFinal()
+    IEnumerator Blink(System.Action accion)
     {
-        dialogueText.text = "";
-        continuarButton.interactable = false;
-
-        BlinkController.Instance.StartBlink(() =>
-        {
-            gameObject.SetActive(false);
-
-            callbackFinDialogoFinal?.Invoke();
-            callbackFinDialogoFinal = null;
-        });
-
-        enDialogoFinal = false;
+        bool done = false;
+        BlinkController.Instance.StartBlink(() => { accion(); done = true; });
+        yield return new WaitUntil(() => done);
     }
-    #endregion
 
-    #region Utilidades
-    private string[] LineasActuales()
+    string[] LineasActuales()
     {
-        if (enDialogoFinal)
-            return esVictoria ? victoriaLines : derrotaLines;
-
-        if (enDialogoTrio)
-            return trioLines;
-
+        if (enConteoJugador) return conteoJugadorLines;
+        if (enConteoIA) return conteoIALines;
+        if (enDialogoFinal) return esVictoria ? victoriaLines : derrotaLines;
+        if (enDialogoTrio) return trioLines;
         return enExplicacion ? explicacionLines : introLines;
     }
 
-    private string ObtenerLineaActual()
+    string ObtenerLineaActual()
     {
         int i = Mathf.Clamp(index - 1, 0, LineasActuales().Length - 1);
         return LineasActuales()[i];
     }
+    #endregion
 
-    private IEnumerator BlinkYCambiarCamara(System.Action accion, System.Action onFinish = null)
+    #region Speaker & Color helpers
+    string ParseSpeakerAndColor(string line)
     {
-        bool terminado = false;
+        string content = line;
 
-        BlinkController.Instance.StartBlink(() =>
+        if (line.Contains("|"))
         {
-            accion?.Invoke();
-            terminado = true;
-        });
+            var split = line.Split('|', 2);
+            string speaker = split[0];
+            content = split[1];
 
-        yield return new WaitUntil(() => terminado);
-        onFinish?.Invoke();
+            if (speaker == "NIETO")
+                dialogueText.color = colorNieto;
+            else if (speaker == "ABUELO")
+                dialogueText.color = colorAbuelo;
+        }
+
+        return content;
+    }
+
+    void MostrarLineaCompleta(string line)
+    {
+        dialogueText.text = ParseSpeakerAndColor(line);
     }
     #endregion
 }
