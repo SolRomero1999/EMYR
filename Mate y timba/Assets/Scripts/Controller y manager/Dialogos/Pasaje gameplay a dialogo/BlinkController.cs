@@ -7,7 +7,7 @@ public class BlinkController : MonoBehaviour
     public static BlinkController Instance;
 
     public Image overlay;
-    public float blinkTime = 0.2f;
+    public float blinkTime = 1f;
 
     private void Awake()
     {

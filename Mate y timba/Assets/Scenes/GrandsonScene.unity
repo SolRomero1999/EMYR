@@ -854,42 +854,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueAutoAdvance
   dialogueText: {fileID: 2070958979}
   continuarButton: {fileID: 1538300586}
-  colorNieto: {r: 0, g: 1, b: 1, a: 1}
-  colorAbuelo: {r: 0, g: 1, b: 0, a: 1}
+  colorContra: {r: 0, g: 1, b: 1, a: 1}
+  colorProta: {r: 0, g: 1, b: 0, a: 1}
   linesInicial:
-  - "NIETO| Hola\u2026"
-  - "ABUELO| \u2026"
-  - "NIETO| Yo\u2026 soy el hijo de tu hijo."
-  - "ABUELO| \xBFEl hijo de\u2026?"
-  - "ABUELO| Ah\u2026"
-  - "ABUELO| S\xED\u2026 claro."
-  - "NIETO| Mami y papi dijeron que viniera a verte\u2026"
-  - NIETO| Que te iba a hacer bien.
-  - "ABUELO| No sabr\xEDa decirte."
-  - "NIETO| No s\xE9 bien qu\xE9 decir\u2026"
-  - "NIETO| Nunca vine a un lugar as\xED"
-  - "ABUELO| Es raro para mi tambi\xE9n. "
-  - 'NIETO| Mmm... '
-  - "NIETO| Papi me dijo que\u2026 a vos te gustaba jugar a las cartas."
-  - "ABUELO| S\xED\u2026"
-  - ABUELO| Mucho.
-  - "NIETO| \xBFQui\xE9n te ense\xF1\xF3?"
+  - "CONTRA | Hola\u2026"
+  - "PROTA  | \u2026"
+  - "CONTRA | Yo\u2026 soy el hijo de tu hijo."
+  - "PROTA  | \xBFEl hijo de\u2026?"
+  - "PROTA  | Ah\u2026"
+  - "PROTA  | S\xED\u2026 claro."
+  - "CONTRA | Mami y papi dijeron que viniera a verte\u2026"
+  - CONTRA | Que te iba a hacer bien.
+  - "PROTA  |  No sabr\xEDa decirte."
+  - "CONTRA | No s\xE9 bien qu\xE9 decir\u2026"
+  - "CONTRA | Nunca vine a un lugar as\xED"
+  - "PROTA  | Es raro para mi tambi\xE9n. "
+  - 'CONTRA | Mmm... '
+  - "CONTRA | Papi me dijo que\u2026 a vos te gustaba jugar a las cartas."
+  - "PROTA  | S\xED\u2026"
+  - PROTA  |  Mucho.
+  - "CONTRA | \xBFQui\xE9n te ense\xF1\xF3?"
   linesPostTutorial:
-  - "\xBFY jugabas a mi edad tambi\xE9n?\n//PASA AL PRIMER NIVEL"
+  - "PROTA  | \u2026"
+  - "PROTA  | Me ense\xF1\xF3 mi abuelo."
+  - "CONTRA | \xBFTu abuelo?"
+  - "PROTA  | S\xED."
+  - "CONTRA | \xBFEra bueno?"
+  - "PROTA  | M\xE1s o menos."
+  - "CONTRA | \xBFJugaban mucho?"
+  - "PROTA  | Cuando se pod\xEDa."
+  - "CONTRA | \u2026"
+  - "CONTRA | \xBFY jugabas a mi edad tambi\xE9n?"
   linesPostNivel1:
-  - "Parece que te llevabas bien con tus amigos\u2026 a m\xED me cuesta un poco.\n//PASA
-    AL SEGUNDO NIVEL"
+  - "PROTA  | S\xED, jugaba a tu edad. "
+  - "CONTRA | \xBFCon tu abuelo?"
+  - "PROTA  | Al principio, s\xED."
+  - "CONTRA | \xBFY despu\xE9s?"
+  - "PROTA  | Despu\xE9s no."
+  - "CONTRA | \xBFPor qu\xE9?"
+  - PROTA  | Se fue.
+  - "CONTRA | Ah\u2026"
+  - "CONTRA | \xBFY con qui\xE9n jugabas?"
+  - "PROTA  | Con nadie, por un tiempo jugu\xE9 solo."
+  - "CONTRA | \xBFSolo?"
+  - "PROTA  | S\xED."
+  - "CONTRA | Eso es feo\u2026"
+  - "PROTA  | Un poco, pero despu\xE9s conoc\xED a alguien."
+  - "CONTRA | \xBFUn amigo?"
+  - "PROTA  | S\xED."
+  - "CONTRA | \xBFC\xF3mo era?"
+  - "PROTA  | \xBFMi amigo?"
+  - "CONTRA | S\xED."
+  - PROTA  | Medio duro.
+  - "CONTRA | \xBFDuro?"
+  - PROTA  | Le costaba entender.
+  - "CONTRA | Ah\u2026 \xBFpero te gustaba jugar igual con \xE9l?"
+  - "PROTA  | S\xED."
+  - "CONTRA | \xBFPor qu\xE9?"
+  - "PROTA  | Porque pod\xEDa jugar al juego favorito de mi abuelo."
+  - "PROTA  | Y no extra\xF1arlo tanto."
+  - "CONTRA | Entonces\u2026"
+  - "CONTRA | Parece que te llevabas bien con tus amigos\u2026"
+  - "CONTRA | A m\xED me cuesta un poco."
   linesPostNivel2:
   - "Si peleaban cuando jugaban\u2026 \xBFpor qu\xE9 segu\xEDan?\n//PASA AL TERCER
     NIVEL"
   linesDerrota:
-  - LINEA DERROTA 1
-  - LINEA DERROTA 2
-  - LINEA DERROTA 3
-  - LINEA DERROTA 4
-  - LINEA DERROTA 5
+  - "PROTA  | Esper\xE1 un segundo."
+  - PROTA  | No lo estoy recordando bien.
+  - "PROTA  | Se me mezcl\xF3 un poco."
+  - "PROTA  | Lo ten\xEDa reci\xE9n."
+  - PROTA  | Dame un momento.
+  - "PROTA  | Creo que me equivoqu\xE9."
+  - "PROTA  | Perd\xF3n, me confund\xED."
+  - "PROTA  | No era as\xED."
+  - PROTA  | Ahora no me sale.
+  - CONTRA | No hace falta que contestes ya.
+  - "CONTRA | Pod\xE9s pensar un poquito m\xE1s."
+  - "CONTRA | Si quer\xE9s, espero."
+  - CONTRA | Tomate tu tiempo.
+  - "CONTRA | Capaz despu\xE9s te acord\xE1s."
   linesCierre:
-  - FIN
+  - "CONTRA | Creo que ya tengo que irme\u2026"
+  - "PROTA | Est\xE1 bien."
+  - "CONTRA | \xBFSeguimos despu\xE9s?"
+  - "PROTA | S\xED\u2026 despu\xE9s."
+  - "CONTRA | Bueno\u2026 chau."
+  - PROTA | Chau.
   charsPerSecond: 40
 --- !u!1 &1953153007
 GameObject:

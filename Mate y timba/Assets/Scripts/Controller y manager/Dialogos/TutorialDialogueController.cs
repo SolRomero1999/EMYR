@@ -12,8 +12,8 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Colores de diálogo
-    public Color colorNieto;
-    public Color colorAbuelo;
+    public Color colorContra;
+    public Color colorProta;
     #endregion
 
     #region Diálogos
@@ -303,13 +303,13 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
         if (line.Contains("|"))
         {
             var split = line.Split('|', 2);
-            string speaker = split[0];
-            content = split[1];
+            string speaker = split[0].Trim();
+            content = split[1].Trim();
 
-            if (speaker == "NIETO")
-                dialogueText.color = colorNieto;
-            else if (speaker == "ABUELO")
-                dialogueText.color = colorAbuelo;
+            if (speaker == "PROTA")
+                dialogueText.color = colorProta;
+            else if (speaker == "CONTRA")
+                dialogueText.color = colorContra;
         }
 
         return content;

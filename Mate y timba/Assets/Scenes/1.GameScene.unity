@@ -1897,7 +1897,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 4130640169021434097, guid: 13034697eff527046beceb356be151b0, type: 3}
+  m_Sprite: {fileID: 3900070910397940366, guid: aa2ef2b5ab0a2744891c3bdec40ba9f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1969,10 +1969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a22d235de3eec24c80f38af35bb70c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreFeedbackVisualizer
-  marcoPrefab: {fileID: 4255821612556819612, guid: 20388fb64a4c3ed4eb3b75c1c9d046d2, type: 3}
-  colorTrio: {r: 0, g: 1, b: 0, a: 1}
-  colorCuarteto: {r: 0.2, g: 0.8, b: 1, a: 1}
-  padding: 0.3
 --- !u!1 &368984724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,6 +2249,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419706800}
   m_CullTransparentMesh: 1
+--- !u!1 &464215934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464215935}
+  - component: {fileID: 464215936}
+  m_Layer: 0
+  m_Name: DialogueController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &464215935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464215934}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1953153008}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &464215936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464215934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d5da55c446433c478e18c457a4972ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel1DialogueController
+  dialogueText: {fileID: 1163065427}
+  continuarButton: {fileID: 1637539325}
+  colorContra: {r: 0, g: 1, b: 1, a: 1}
+  colorProta: {r: 0, g: 1, b: 0, a: 1}
+  introLines:
+  - "CONTRA | Ey\u2026"
+  - "CONTRA | Siempre est\xE1s ac\xE1 solo."
+  - "PROTA  | \u2026"
+  - "CONTRA | \xBFQu\xE9 hac\xE9s?"
+  - PROTA  | Juego.
+  - "CONTRA | \xBFCon cartas?"
+  - "PROTA  | S\xED."
+  - "CONTRA | Mi pap\xE1 juega al truco."
+  - CONTRA | Pero eso es aburrido.
+  - "CONTRA | \xBFEse juego es aburrido?"
+  - PROTA  | No.
+  - CONTRA | A ver.
+  - "CONTRA | \xBFMe ense\xF1\xE1s?"
+  iaAltasLines:
+  - CONTRA | Ah.
+  - "CONTRA | Par\xE1."
+  - "CONTRA | Estas valen m\xE1s, \xBFno?"
+  - "CONTRA | Porque son m\xE1s grandes."
+  - "PROTA  | \u2026"
+  - CONTRA | Bueno, listo.
+  - "CONTRA | Creo que ya entend\xED."
+  - CONTRA | O eso creo.
+  victoriaLines:
+  - CONTRA | Eh.
+  - "CONTRA | Perd\xED."
+  - CONTRA | Pero yo estaba ganando.
+  - "CONTRA | \xBFO cont\xE9 mal?"
+  - "CONTRA | No s\xE9."
+  - CONTRA | Capaz hice algo mal.
+  derrotaLines:
+  - "CONTRA | Gan\xE9."
+  - "CONTRA | \xBFGan\xE9?"
+  - "PROTA  | \u2026"
+  - CONTRA | Bueno.
+  - "CONTRA | Entonces gan\xE9."
+  charsPerSecond: 40
 --- !u!1 &475787936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,6 +2878,8 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420034}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2916,12 +2999,41 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 12.74, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d236f11a97b76489cf6a250495564c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  gameplayView: {fileID: 1993455446}
+  dialogueView: {fileID: 350393148}
+  moveDuration: 0.1
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e693788336e0db4e9456cb2989cebd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlinkController
+  overlay: {fileID: 765228866}
+  blinkTime: 1
 --- !u!1 &543309799
 GameObject:
   m_ObjectHideFlags: 0
@@ -4632,7 +4744,7 @@ Transform:
   m_GameObject: {fileID: 1006889284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08, z: 0}
+  m_LocalPosition: {x: 0, y: -1.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7964,37 +8076,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &1849757413
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1849757414}
-  m_Layer: 0
-  m_Name: Dialogos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1849757414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849757413}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1953153008}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1860687012
 GameObject:
   m_ObjectHideFlags: 0
@@ -8962,7 +9043,7 @@ Transform:
   - {fileID: 1869162370}
   - {fileID: 2142930939}
   - {fileID: 929869412}
-  - {fileID: 1849757414}
+  - {fileID: 464215935}
   - {fileID: 28327874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9647,7 +9728,7 @@ MonoBehaviour:
   game: {fileID: 1283011276}
   delayIAMin: 1
   delayIAMax: 4
-  dialogoResultadoNivel: {fileID: 0}
+  dialogoResultadoNivel: {fileID: 464215936}
   cheatsActivos: 1
   cheatVictoria: 118
   cheatDerrota: 100

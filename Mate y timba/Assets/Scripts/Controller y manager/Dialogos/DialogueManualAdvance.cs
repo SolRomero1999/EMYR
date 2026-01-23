@@ -6,28 +6,37 @@ using UnityEngine.SceneManagement;
 
 public class DialogueManualAdvance : MonoBehaviour
 {
+    #region UI
     public TMP_Text dialogueText;
     public Button continuarButton;
+    #endregion
 
-    [Header("Colores de diálogo")]
-    public Color colorNieto;
-    public Color colorAbuelo;
+    #region Colores de diálogo
+    public Color colorContra;
+    public Color colorProta;
+    #endregion
 
-    [Header("Diálogos")]
+    #region Diálogos
     [TextArea] public string[] linesInicial;
     [TextArea] public string[] linesPostTutorial;
     [TextArea] public string[] linesPostNivel1;
     [TextArea] public string[] linesPostNivel2;
     [TextArea] public string[] linesDerrota;
     [TextArea] public string[] linesCierre;
+    #endregion
 
+    #region Config
     public float charsPerSecond = 40f;
+    #endregion
 
+    #region Estado
     private string[] lines;
     private int index = 0;
     private bool isTyping;
     private Coroutine typingCoroutine;
+    #endregion
 
+    #region Unity
     private void Start()
     {
         continuarButton.onClick.AddListener(NextLine);
@@ -37,6 +46,13 @@ public class DialogueManualAdvance : MonoBehaviour
         NextLine();
     }
 
+    private void OnDestroy()
+    {
+        continuarButton.onClick.RemoveListener(NextLine);
+    }
+    #endregion
+
+    #region Flujo principal
     private void SeleccionarDialogo()
     {
         if (LevelManager.EsPostUltimoNivel())
@@ -93,7 +109,9 @@ public class DialogueManualAdvance : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeLine(lines[index]));
         index++;
     }
+    #endregion
 
+    #region Otros
     private void IrASiguienteEscena()
     {
         if (LevelManager.EsPostUltimoNivel())
@@ -124,20 +142,7 @@ public class DialogueManualAdvance : MonoBehaviour
         isTyping = true;
         dialogueText.text = "";
 
-        string speaker = "";
-        string content = line;
-
-        if (line.Contains("|"))
-        {
-            var split = line.Split('|');
-            speaker = split[0];
-            content = split[1];
-
-            if (speaker == "NIETO")
-                dialogueText.color = colorNieto;
-            else if (speaker == "ABUELO")
-                dialogueText.color = colorAbuelo;
-        }
+        string content = ParseSpeakerAndColor(line);
 
         foreach (char c in content)
         {
@@ -147,30 +152,31 @@ public class DialogueManualAdvance : MonoBehaviour
 
         isTyping = false;
     }
+    #endregion
 
-    private void MostrarLineaCompleta(string line)
+    #region Speaker & Color helpers
+    private string ParseSpeakerAndColor(string line)
     {
-        string speaker = "";
         string content = line;
 
         if (line.Contains("|"))
         {
             var split = line.Split('|', 2);
-            speaker = split[0];
-            content = split[1];
+            string speaker = split[0].Trim();
+            content = split[1].Trim();
 
-            if (speaker == "NIETO")
-                dialogueText.color = colorNieto;
-            else if (speaker == "ABUELO")
-                dialogueText.color = colorAbuelo;
+            if (speaker == "PROTA")
+                dialogueText.color = colorProta;
+            else if (speaker == "CONTRA")
+                dialogueText.color = colorContra;
         }
 
-        dialogueText.text = content;
+        return content;
     }
 
-    private void OnDestroy()
+    private void MostrarLineaCompleta(string line)
     {
-        continuarButton.onClick.RemoveListener(NextLine);
+        dialogueText.text = ParseSpeakerAndColor(line);
     }
+    #endregion
 }
-

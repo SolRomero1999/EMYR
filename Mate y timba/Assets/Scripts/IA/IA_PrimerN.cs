@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class IA_PrimerN : IA_Base
 {
+    public static event Action OnIACambiaAModoAltas;
     private int turnosJugados = 0;
     private bool prioridadAltas = false;
 
@@ -89,7 +91,7 @@ public class IA_PrimerN : IA_Base
         if (turnosJugados < 6) return;
 
         int probabilidad = Mathf.Clamp(50 + (turnosJugados - 6) * 10, 50, 100);
-        int tirada = Random.Range(0, 100);
+        int tirada = UnityEngine.Random.Range(0, 100);
 
         Debug.Log($"[IA PRIMER NIVEL] Tirada {tirada} / Prob {probabilidad}");
 
@@ -97,6 +99,7 @@ public class IA_PrimerN : IA_Base
         {
             prioridadAltas = true;
             Debug.Log("[IA PRIMER NIVEL] CAMBIA A PRIORIDAD ALTAS");
+            OnIACambiaAModoAltas?.Invoke();
         }
     }
     #endregion

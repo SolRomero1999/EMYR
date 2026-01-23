@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 
     public Transform gameplayView;
     public Transform dialogueView;
-    public float moveDuration = 0.6f;
+    public float moveDuration = 0.1f;
 
     private void Awake()
     {
