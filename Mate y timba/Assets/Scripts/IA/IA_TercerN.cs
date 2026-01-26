@@ -4,23 +4,43 @@ using System.Collections.Generic;
 
 public class IA_TercerN : IA_Base
 {
+    public event System.Action OnPrimeraEliminacionJugador;
+    public event System.Action OnPrimerComboJugador;
+
     private int valorTrioActivo = -1;
     private int columnaTrioActivo = -1;
 
     private int turnosEnojo = 0;
     private const int DURACION_ENOJO = 2;
 
+    private bool primeraEliminacionNotificada = false;
+    private bool primerComboNotificado = false;
+
     #region Notificaciones externas
     public override void OnCartaEliminadaPorJugador()
     {
         turnosEnojo = DURACION_ENOJO;
+
+        if (!primeraEliminacionNotificada)
+        {
+            primeraEliminacionNotificada = true;
+            OnPrimeraEliminacionJugador?.Invoke();
+        }
+
         Debug.Log("[IA SECUNDARIA] Se enojó por eliminación");
     }
 
     public override void OnTrioJugadorDetectado()
     {
         turnosEnojo = DURACION_ENOJO;
-        Debug.Log("[IA SECUNDARIA] Se enojó por trío del jugador");
+
+        if (!primerComboNotificado)
+        {
+            primerComboNotificado = true;
+            OnPrimerComboJugador?.Invoke();
+        }
+
+        Debug.Log("[IA SECUNDARIA] Se enojó por combo del jugador");
     }
     #endregion
 
@@ -76,7 +96,7 @@ public class IA_TercerN : IA_Base
     }
     #endregion
 
-    #region Eliminación reactiva (solo en enojo)
+    #region Eliminación reactiva
     private bool IntentarEliminarCartaJugador()
     {
         int inicioFilaJugador = 0;
@@ -135,7 +155,6 @@ public class IA_TercerN : IA_Base
             ? columnasLibres[Random.Range(0, columnasLibres.Count)]
             : -1;
 
-        Debug.Log($"[IA SECUNDARIA] Inicia trío de {valorTrioActivo}");
         return JugarCartaDeTrio();
     }
 

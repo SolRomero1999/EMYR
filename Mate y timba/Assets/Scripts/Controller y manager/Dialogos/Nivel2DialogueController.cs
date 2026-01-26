@@ -3,21 +3,23 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
+public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
 {
     #region UI
     public TMP_Text dialogueText;
     public Button continuarButton;
+    public IA_SegundoN iaSegundoNivel;
     #endregion
 
-    #region Colores de diálogo
+    #region Colores
     public Color colorContra;
     public Color colorProta;
     #endregion
 
     #region Diálogos
     [TextArea] public string[] introLines;
-    [TextArea] public string[] iaAltasLines;
+    [TextArea] public string[] primeraEliminacionLines;
+    [TextArea] public string[] intentoTrioLines;
     [TextArea] public string[] victoriaLines;
     [TextArea] public string[] derrotaLines;
     #endregion
@@ -30,7 +32,8 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     int index = 0;
     bool isTyping;
 
-    bool enDialogoAltas;
+    bool enPrimeraEliminacion;
+    bool enIntentoTrio;
     bool enDialogoFinal;
     bool esVictoria;
 
@@ -42,7 +45,16 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     void Start()
     {
         continuarButton.onClick.AddListener(NextLine);
-        IA_PrimerN.OnIACambiaAModoAltas += IniciarDialogoAltas;
+
+        if (iaSegundoNivel != null)
+        {
+            iaSegundoNivel.OnPrimeraEliminacion += IniciarDialogoPrimeraEliminacion;
+            iaSegundoNivel.OnInicioTrio += IniciarDialogoTrio;
+        }
+        else
+        {
+            Debug.LogError("[Nivel2DialogueController] IA_SegundoN no asignada");
+        }
 
         FindFirstObjectByType<TurnManager>()?.BloquearInputJugador();
 
@@ -55,20 +67,18 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     void OnDestroy()
     {
         continuarButton.onClick.RemoveListener(NextLine);
-        IA_PrimerN.OnIACambiaAModoAltas -= IniciarDialogoAltas;
+
+        if (iaSegundoNivel != null)
+        {
+            iaSegundoNivel.OnPrimeraEliminacion -= IniciarDialogoPrimeraEliminacion;
+            iaSegundoNivel.OnInicioTrio -= IniciarDialogoTrio;
+        }
     }
     #endregion
 
-    #region Interface IResultadoDialogo
-    public bool TieneDialogoVictoria()
-    {
-        return victoriaLines != null && victoriaLines.Length > 0;
-    }
-
-    public bool TieneDialogoDerrota()
-    {
-        return derrotaLines != null && derrotaLines.Length > 0;
-    }
+    #region IResultadoDialogo
+    public bool TieneDialogoVictoria() => victoriaLines.Length > 0;
+    public bool TieneDialogoDerrota() => derrotaLines.Length > 0;
 
     public void MostrarDialogoVictoria(System.Action alFinal)
     {
@@ -83,7 +93,7 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     }
     #endregion
 
-    #region Flujo principal
+    #region Flujo
     void NextLine()
     {
         if (isTyping)
@@ -102,7 +112,7 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
                 return;
             }
 
-            StartCoroutine(PasarAGameplay());
+            StartCoroutine(VolverAGameplay());
             return;
         }
 
@@ -128,15 +138,12 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Transiciones
-    IEnumerator PasarAGameplay()
+    IEnumerator VolverAGameplay()
     {
         dialogueText.text = "";
-
         yield return Blink(CameraController.Instance.IrAGameplay);
 
-        enDialogoAltas = false;
-        index = 0;
-
+        ResetEstados();
         FindFirstObjectByType<TurnManager>()?.HabilitarInputJugador();
     }
 
@@ -152,17 +159,13 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
         BlinkController.Instance.StartBlink(() =>
         {
             CameraController.Instance.IrADialogo();
-            NextLine(); 
+            NextLine();
         });
     }
 
     void FinalizarDialogoFinal()
     {
-        enDialogoFinal = false;
-
-        dialogueText.text = "";
-        continuarButton.interactable = false;
-
+        gameObject.SetActive(false);
         callbackFinal?.Invoke();
         callbackFinal = null;
     }
@@ -175,17 +178,29 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
             accion();
             done = true;
         });
-
         yield return new WaitUntil(() => done);
     }
     #endregion
 
-    #region Diálogo IA ALTAS
-    void IniciarDialogoAltas()
+    #region Inicios de diálogo
+    void IniciarDialogoPrimeraEliminacion()
     {
-        if (enDialogoAltas || enDialogoFinal) return;
+        if (enDialogoFinal) return;
 
-        enDialogoAltas = true;
+        enPrimeraEliminacion = true;
+        PrepararDialogo();
+    }
+
+    void IniciarDialogoTrio()
+    {
+        if (enDialogoFinal || enPrimeraEliminacion) return;
+
+        enIntentoTrio = true;
+        PrepararDialogo();
+    }
+
+    void PrepararDialogo()
+    {
         index = 0;
         dialogueText.text = "";
 
@@ -202,10 +217,20 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
         if (enDialogoFinal)
             return esVictoria ? victoriaLines : derrotaLines;
 
-        if (enDialogoAltas)
-            return iaAltasLines;
+        if (enPrimeraEliminacion)
+            return primeraEliminacionLines;
+
+        if (enIntentoTrio)
+            return intentoTrioLines;
 
         return introLines;
+    }
+
+    void ResetEstados()
+    {
+        enPrimeraEliminacion = false;
+        enIntentoTrio = false;
+        index = 0;
     }
 
     string ObtenerLineaActual()
@@ -224,10 +249,8 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
             string speaker = split[0].Trim();
             content = split[1].Trim();
 
-            if (speaker == "PROTA")
-                dialogueText.color = colorProta;
-            else if (speaker == "CONTRA")
-                dialogueText.color = colorContra;
+            dialogueText.color =
+                speaker == "PROTA" ? colorProta : colorContra;
         }
 
         return content;

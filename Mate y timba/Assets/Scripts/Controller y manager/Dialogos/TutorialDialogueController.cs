@@ -118,11 +118,17 @@ public class TutorialDialogueController : MonoBehaviour, IResultadoDialogo
                 return;
             }
 
-            if (enDialogoTrio)
-            {
-                enDialogoTrio = false;
-                return;
-            }
+        if (enDialogoTrio)
+        {
+            enDialogoTrio = false;
+            enExplicacion = false;
+
+            FindFirstObjectByType<TurnManager>()?.HabilitarInputJugador();
+            BlinkController.Instance.StartBlink(CameraController.Instance.IrAGameplay);
+            dialogueText.text = "";
+
+            return;
+        }
 
             if (!enExplicacion)
             {

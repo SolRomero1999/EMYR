@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a2deee5208b92fb48a4394e4f42e44a0
+guid: 133f16fe2a6c2b64a8547db38d032b5e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1987506363833893423
-    second: asilo_0
+      213: -4845438962917600862
+    second: casa asilo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asilo_0
+      name: casa asilo_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1440
+        width: 1920
         height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1dd3ada0e75fa64e0800000000000000
-      internalID: -1987506363833893423
+      spriteID: 2a1957a7fea81ccb0800000000000000
+      internalID: -4845438962917600862
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asilo_0: -1987506363833893423
+      casa asilo_0: -4845438962917600862
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

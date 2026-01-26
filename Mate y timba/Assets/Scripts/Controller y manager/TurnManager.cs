@@ -173,17 +173,10 @@ public class TurnManager : MonoBehaviour
 
         bool victoriaJugador = CalcularVictoriaJugador();
 
-        if (dialogoResultado != null)
+        if (LevelManager.CurrentLevel == 0)
         {
-            bool tieneDialogo =
-                (victoriaJugador && dialogoResultado.TieneDialogoVictoria()) ||
-                (!victoriaJugador && dialogoResultado.TieneDialogoDerrota());
-
-            if (tieneDialogo)
-            {
-                ResolverResultado(victoriaJugador);
-                return;
-            }
+            ResolverResultado(victoriaJugador);
+            return;
         }
 
         EndGameScoreAnimator animator =
@@ -193,15 +186,14 @@ public class TurnManager : MonoBehaviour
         {
             animator.OnConteoFinalizado = () =>
             {
-                StartCoroutine(EsperarYResolverResultado(victoriaJugador));
+                ResolverResultado(victoriaJugador);
             };
 
             animator.MostrarResultadoFinal();
+            return;
         }
-        else
-        {
-            ResolverResultado(victoriaJugador);
-        }
+
+        ResolverResultado(victoriaJugador);
     }
 
     private IEnumerator EsperarYResolverResultado(bool victoriaJugador)

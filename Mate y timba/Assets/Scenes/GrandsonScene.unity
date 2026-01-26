@@ -917,8 +917,26 @@ MonoBehaviour:
   - "CONTRA | Parece que te llevabas bien con tus amigos\u2026"
   - "CONTRA | A m\xED me cuesta un poco."
   linesPostNivel2:
-  - "Si peleaban cuando jugaban\u2026 \xBFpor qu\xE9 segu\xEDan?\n//PASA AL TERCER
-    NIVEL"
+  - "PROTA  | No\u2026"
+  - PROTA  | No me llevaba bien con todos.
+  - "PROTA  | Hab\xEDa chicos que eran un poco malos."
+  - "CONTRA | \xBFMalos?"
+  - PROTA  | Un poco.
+  - "CONTRA | \xBFY jugaban igual?"
+  - "PROTA  | S\xED."
+  - "CONTRA | \xBFPor qu\xE9?"
+  - "PROTA  | \xBFY por qu\xE9 no? "
+  - "PROTA  | Segu\xEDa siendo mejor que jugar solo. "
+  - "PROTA  | Y aprend\xED cosas interesantes. "
+  - PROTA  | A jugar distinto.
+  - PROTA  | A cambiar reglas.
+  - "CONTRA | \xBFLas del juego de tu abuelo?"
+  - "PROTA  | S\xED."
+  - PROTA  | Algunas incluso quedaron.
+  - "CONTRA | \u2026"
+  - "CONTRA | Pero\u2026"
+  - "CONTRA | Si se peleaban\u2026"
+  - "CONTRA | \xBFpor qu\xE9 segu\xEDan?"
   linesDerrota:
   - "PROTA  | Esper\xE1 un segundo."
   - PROTA  | No lo estoy recordando bien.
@@ -1038,12 +1056,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: -1987506363833893423, guid: a2deee5208b92fb48a4394e4f42e44a0, type: 3}
+  m_Sprite: {fileID: -4845438962917600862, guid: 133f16fe2a6c2b64a8547db38d032b5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 19.2, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

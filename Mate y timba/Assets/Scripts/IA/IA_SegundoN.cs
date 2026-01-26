@@ -6,7 +6,10 @@ public class IA_SegundoN : IA_Base
 {
     private int valorTrioActivo = -1;
     private int columnaTrioActivo = -1;
+    public System.Action OnPrimeraEliminacion;
+    public System.Action OnInicioTrio;
 
+    private bool yaEliminoUnaVez = false;
 
     #region Turno IA
     public override void RobarCartaIA()
@@ -88,6 +91,12 @@ public class IA_SegundoN : IA_Base
                 if (celdaLibreIA == null)
                     continue;
 
+                if (!yaEliminoUnaVez)
+                {
+                    OnPrimeraEliminacion?.Invoke();
+                    yaEliminoUnaVez = true;
+                }
+
                 cartaIA.ColocarEnCelda(celdaLibreIA);
                 cartaIA.MostrarFrente();
                 game.manoIAActual.Remove(cartaIA);
@@ -122,6 +131,8 @@ public class IA_SegundoN : IA_Base
             columnaTrioActivo = columnasLibres[Random.Range(0, columnasLibres.Count)];
         else
             columnaTrioActivo = -1;
+
+        OnInicioTrio?.Invoke();
 
         Debug.Log($"[IA NIÑEZ] Inicia trío de {valorTrioActivo} en columna {columnaTrioActivo}");
         return JugarCartaDeTrio();

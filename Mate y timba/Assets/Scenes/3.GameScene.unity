@@ -154,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -560, y: -420}
+  m_AnchoredPosition: {x: -550, y: -420}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &30376816
@@ -1381,6 +1381,113 @@ Transform:
   - {fileID: 885343386}
   m_Father: {fileID: 1386434129}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &273467414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 273467415}
+  - component: {fileID: 273467416}
+  m_Layer: 0
+  m_Name: DialogueController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &273467415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273467414}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1953153008}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &273467416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273467414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e467be7366591174b8601956fe88f9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel3DialogueController
+  dialogueText: {fileID: 1163065427}
+  continuarButton: {fileID: 1637539325}
+  iaTercerNivel: {fileID: 1884931105}
+  colorContra: {r: 0, g: 1, b: 1, a: 1}
+  colorProta: {r: 0, g: 1, b: 0, a: 1}
+  introLines:
+  - CONTRA | Siempre te veo jugando eso.
+  - "CONTRA | Ya m\xE1s o menos entiendo las reglas."
+  - "CONTRA | \xBFPuedo jugar?"
+  - "PROTA  | Si quer\xE9s."
+  - CONTRA | Dale.
+  - CONTRA | Igual aviso.
+  - CONTRA | No me gusta perder.
+  - PROTA  | No es tan serio.
+  - CONTRA | Para vos.
+  - "CONTRA | Che\u2026"
+  - CONTRA | Ya que estamos tomando mate.
+  - "CONTRA | \xBFLe agregamos algo?"
+  - "PROTA  | \xBFOtra regla?"
+  - "CONTRA | S\xED."
+  - CONTRA | Una sola.
+  - CONTRA | El mate.
+  - "PROTA  | \xBFEl mate?"
+  - CONTRA | Una vez durante la partida.
+  - "CONTRA | Tom\xE1s uno."
+  - CONTRA | Y pasa algo.
+  - "PROTA  | \xBFQu\xE9 cosa?"
+  - "CONTRA | Depende c\xF3mo salga."
+  - "CONTRA | Si sale rico\u2026"
+  - "CONTRA | Cambi\xE1s todas tus cartas."
+  - CONTRA | Todas.
+  - "PROTA  | \xBFY si sale mal?"
+  - "CONTRA | Si est\xE1 lavado\u2026"
+  - "CONTRA | Cambi\xE1s una."
+  - "CONTRA | Si sale feo\u2026"
+  - "CONTRA | Perd\xE9s el turno."
+  - CONTRA | Pero ojo.
+  - CONTRA | Una sola vez en la partida.
+  - CONTRA | Si no, es cualquiera.
+  - PROTA  | Bueno.
+  primeraEliminacionLines:
+  - CONTRA | Eh.
+  - "CONTRA | Par\xE1."
+  - "CONTRA | \xBFMe acab\xE1s de eliminar esa carta?"
+  - "PROTA  | S\xED."
+  - CONTRA | Dale.
+  - "CONTRA | Reci\xE9n empezamos."
+  - "CONTRA | Qu\xE9 bronca."
+  - CONTRA | Bueno.
+  - CONTRA | Ahora vas a ver.
+  primerComboLines:
+  - "CONTRA | No\u2026"
+  - CONTRA | No te voy a dejar anotar tanto.
+  - CONTRA | Ahora juego en serio.
+  victoriaLines:
+  - CONTRA | Bueno.
+  - CONTRA | Ganaste.
+  - CONTRA | Pero estuvo bueno.
+  derrotaLines:
+  - "CONTRA | As\xED se juega esto. "
+  - 'CONTRA | Esta bueno tu juego. '
+  - CONTRA | Con reglas nuevas y todo.
+  charsPerSecond: 40
 --- !u!1 &308350687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,6 +2456,8 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420034}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2468,12 +2577,41 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 12.74, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e693788336e0db4e9456cb2989cebd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlinkController
+  overlay: {fileID: 765228866}
+  blinkTime: 1
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d236f11a97b76489cf6a250495564c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  gameplayView: {fileID: 1993455446}
+  dialogueView: {fileID: 350393148}
+  moveDuration: 0.1
 --- !u!1 &543309799
 GameObject:
   m_ObjectHideFlags: 0
@@ -4455,7 +4593,7 @@ Transform:
   m_GameObject: {fileID: 1006889284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08, z: 0}
+  m_LocalPosition: {x: 0, y: -2.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4508,7 +4646,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 4705257864563095578, guid: 8f674d0d64131684488b8de70388c106, type: 3}
+  m_Sprite: {fileID: -7221133820011107026, guid: 578b9d9394e41c94b910cdbe1e40afdd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7463,10 +7601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a22d235de3eec24c80f38af35bb70c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreFeedbackVisualizer
-  marcoPrefab: {fileID: 4255821612556819612, guid: 20388fb64a4c3ed4eb3b75c1c9d046d2, type: 3}
-  colorTrio: {r: 0, g: 1, b: 0, a: 1}
-  colorCuarteto: {r: 0.2, g: 0.8, b: 1, a: 1}
-  padding: 0.3
 --- !u!1 &1729486671
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,37 +8353,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1849757413
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1849757414}
-  m_Layer: 0
-  m_Name: Dialogos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1849757414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849757413}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1953153008}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1860280858
 GameObject:
   m_ObjectHideFlags: 0
@@ -9015,8 +9118,8 @@ Transform:
   - {fileID: 1869162370}
   - {fileID: 2142930939}
   - {fileID: 929869412}
-  - {fileID: 1849757414}
   - {fileID: 1884931104}
+  - {fileID: 273467415}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1990908175
@@ -9983,7 +10086,7 @@ MonoBehaviour:
   game: {fileID: 1283011276}
   delayIAMin: 2
   delayIAMax: 5
-  dialogoResultadoNivel: {fileID: 0}
+  dialogoResultadoNivel: {fileID: 273467416}
   cheatsActivos: 1
   cheatVictoria: 118
   cheatDerrota: 100
