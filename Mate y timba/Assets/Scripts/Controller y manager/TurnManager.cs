@@ -195,12 +195,6 @@ public class TurnManager : MonoBehaviour
 
         ResolverResultado(victoriaJugador);
     }
-
-    private IEnumerator EsperarYResolverResultado(bool victoriaJugador)
-    {
-        yield return new WaitForSeconds(1.5f);
-        ResolverResultado(victoriaJugador);
-    }
     #endregion
 
     #region Cheat
@@ -253,33 +247,28 @@ public class TurnManager : MonoBehaviour
 
     private void ResolverNivel(bool victoriaJugador)
     {
-        if (LevelManager.CurrentLevel == 0)
+        BlinkController.Instance.StartBlink(() =>
         {
-            LevelManager.tutorialDialogoVisto = true;
-            LevelManager.UltimoNivelCompletado = 0;
-            LevelManager.CurrentLevel = 1;
+            if (LevelManager.CurrentLevel == 0)
+            {
+                LevelManager.tutorialDialogoVisto = true;
+                LevelManager.UltimoNivelCompletado = 0;
+                LevelManager.CurrentLevel = 1;
 
-            if (!victoriaJugador)
+                if (!victoriaJugador)
+                    LevelManagerFlags.VieneDeDerrota = true;
+
+                LevelManager.IrADialogo();
+                return;
+            }
+
+            if (victoriaJugador)
+                LevelManager.AvanzarNivel();
+            else
                 LevelManagerFlags.VieneDeDerrota = true;
 
             LevelManager.IrADialogo();
-            return;
-        }
-
-        if (victoriaJugador)
-            LevelManager.AvanzarNivel();
-        else
-            LevelManagerFlags.VieneDeDerrota = true;
-
-        StartCoroutine(VolverADialogo());
-    }
-    #endregion
-
-    #region Transición
-    private IEnumerator VolverADialogo()
-    {
-        yield return new WaitForSeconds(2.5f);
-        LevelManager.IrADialogo();
+        });
     }
     #endregion
 }
