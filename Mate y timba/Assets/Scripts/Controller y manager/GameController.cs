@@ -208,11 +208,10 @@ public class GameController : MonoBehaviour
             mazo.transform,
             manoJugador,
             posicionFinal,
+            true, 
             () =>
             {
                 ReordenarMano();
-                robada.MostrarFrente();
-
                 tm.TerminarTurnoJugador();
             }
         );
@@ -242,10 +241,10 @@ public class GameController : MonoBehaviour
             mazo.transform,
             manoIA,
             posicionFinal,
+            false, 
             () =>
             {
                 ReordenarManoIA();
-                robada.MostrarDorso(); 
             }
         );
     }

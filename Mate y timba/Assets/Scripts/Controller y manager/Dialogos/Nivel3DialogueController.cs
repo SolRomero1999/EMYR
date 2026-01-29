@@ -22,6 +22,11 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     [TextArea] public string[] primerComboLines;
     [TextArea] public string[] victoriaLines;
     [TextArea] public string[] derrotaLines;
+
+    [Header("Diálogos Mate")]
+    [TextArea] public string[] mateRicoLines;
+    [TextArea] public string[] mateLavadoLines;
+    [TextArea] public string[] mateFeoLines;
     #endregion
 
     #region Config
@@ -37,6 +42,8 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     bool enDialogoFinal;
     bool esVictoria;
 
+    string[] dialogoMateActual;
+
     Coroutine typingCoroutine;
     System.Action callbackFinal;
     #endregion
@@ -51,10 +58,8 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
             iaTercerNivel.OnPrimeraEliminacionJugador += IniciarDialogoPrimeraEliminacion;
             iaTercerNivel.OnPrimerComboJugador += IniciarDialogoCombo;
         }
-        else
-        {
-            Debug.LogError("[Nivel3DialogueController] IA_TercerN no asignada");
-        }
+
+        UI_Items.OnResultadoMate += IniciarDialogoMate;
 
         FindFirstObjectByType<TurnManager>()?.BloquearInputJugador();
 
@@ -73,6 +78,8 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
             iaTercerNivel.OnPrimeraEliminacionJugador -= IniciarDialogoPrimeraEliminacion;
             iaTercerNivel.OnPrimerComboJugador -= IniciarDialogoCombo;
         }
+
+        UI_Items.OnResultadoMate -= IniciarDialogoMate;
     }
     #endregion
 
@@ -144,6 +151,10 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
         yield return Blink(CameraController.Instance.IrAGameplay);
 
         ResetEstados();
+
+        callbackFinal?.Invoke();
+        callbackFinal = null;
+
         FindFirstObjectByType<TurnManager>()?.HabilitarInputJugador();
     }
 
@@ -199,6 +210,43 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
         PrepararDialogo();
     }
 
+    void IniciarDialogoMate(UI_Items.ResultadoMate resultado, System.Action callbackMate)
+    {
+        if (enDialogoFinal) return;
+
+        switch (resultado)
+        {
+            case UI_Items.ResultadoMate.Rico:
+                dialogoMateActual = mateRicoLines;
+                break;
+            case UI_Items.ResultadoMate.Lavado:
+                dialogoMateActual = mateLavadoLines;
+                break;
+            case UI_Items.ResultadoMate.Feo:
+                dialogoMateActual = mateFeoLines;
+                break;
+        }
+
+        if (dialogoMateActual == null || dialogoMateActual.Length == 0)
+        {
+            callbackMate?.Invoke();
+            return;
+        }
+
+        index = 0;
+        dialogueText.text = "";
+
+        FindFirstObjectByType<TurnManager>()?.BloquearInputJugador();
+
+        BlinkController.Instance.StartBlink(() =>
+        {
+            CameraController.Instance.IrADialogo();
+            NextLine();
+        });
+
+        callbackFinal = callbackMate;
+    }
+
     void PrepararDialogo()
     {
         index = 0;
@@ -214,6 +262,9 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     #region Helpers
     string[] LineasActuales()
     {
+        if (dialogoMateActual != null)
+            return dialogoMateActual;
+
         if (enDialogoFinal)
             return esVictoria ? victoriaLines : derrotaLines;
 
@@ -230,6 +281,7 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     {
         enPrimeraEliminacion = false;
         enPrimerCombo = false;
+        dialogoMateActual = null;
         index = 0;
     }
 

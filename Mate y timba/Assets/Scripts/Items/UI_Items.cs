@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using TMPro;
 
 public class UI_Items : MonoBehaviour
 {
     #region Variables
     public Transform panelOpciones;
+    public TMP_Text textoPanel;
     public GameObject cartaUIPrefab_Cerveza;
     public List<Carta> cartasMostradas = new List<Carta>();
 
@@ -14,9 +17,18 @@ public class UI_Items : MonoBehaviour
 
     private bool modoMateLavado = false;
     public GameObject cartaUIPrefab_Mate;
-
     #endregion
 
+    #region ★ Resultado Mate
+    public enum ResultadoMate
+    {
+        Rico,
+        Lavado,
+        Feo
+    }
+
+    public static event System.Action<ResultadoMate, System.Action> OnResultadoMate;
+    #endregion
 
     #region Unity Methods
     private void Start()
@@ -40,7 +52,7 @@ public class UI_Items : MonoBehaviour
             cartasMostradas.Add(c);
         }
 
-        panelOpciones.gameObject.SetActive(true);
+        MostrarPanelConTexto("Elegí una de estas cartas");
 
         foreach (Transform child in panelOpciones)
             Destroy(child.gameObject);
@@ -48,6 +60,7 @@ public class UI_Items : MonoBehaviour
         foreach (Carta c in cartasMostradas)
         {
             GameObject ui = Instantiate(cartaUIPrefab_Cerveza, panelOpciones);
+            ui.transform.localScale = Vector3.one * 0.65f;
             ui.GetComponent<UI_Carta>().Configurar(c, this);
         }
     }
@@ -132,7 +145,6 @@ public class UI_Items : MonoBehaviour
             celdaOriginal.SetOccupied(null);
 
         cartaSeleccionada.ColocarEnCelda(celdaDestino);
-
         cartaSeleccionada.transform.localScale = new Vector3(0.1912268f, 0.1807186f, 1);
 
         FinalizarPucho();
@@ -167,54 +179,80 @@ public class UI_Items : MonoBehaviour
     #endregion
 
     #region Mate
-        public void ActivarMate()
+    public void ActivarMate()
     {
         float r = Random.value;
 
         if (r <= 0.70f)
         {
-            MateRico();
+            OnResultadoMate?.Invoke(ResultadoMate.Rico, MateRico);
         }
         else if (r <= 0.95f)
         {
-            MateLavado();
+            OnResultadoMate?.Invoke(ResultadoMate.Lavado, MateLavado);
         }
         else
         {
-            MateFeo();
+            OnResultadoMate?.Invoke(ResultadoMate.Feo, MateFeo);
         }
     }
 
     private void MateRico()
     {
+        StartCoroutine(MateRicoCoroutine());
+    }
+
+    private IEnumerator MateRicoCoroutine()
+    {
+        TurnManager tm = FindFirstObjectByType<TurnManager>();
+        if (tm != null)
+            tm.BloquearInputJugador();
+
         foreach (Carta c in new List<Carta>(game.manoActual))
         {
             if (c.celdaActual != null)
                 c.celdaActual.SetOccupied(null);
 
+            yield return c.StartCoroutine(c.AnimarDescartar(Vector3.down));
             Destroy(c.gameObject);
         }
 
         game.manoActual.Clear();
+        yield return new WaitForSeconds(0.1f);
 
         int cantidad = 5;
         for (int i = 0; i < cantidad; i++)
         {
             Carta nueva = game.mazo.RobarCarta();
-            nueva.transform.SetParent(game.manoJugador);
             nueva.enMano = true;
-            game.manoActual.Add(nueva);
             nueva.MostrarFrente();
+            nueva.transform.SetParent(game.manoJugador);
+
+            game.manoActual.Add(nueva);
+            game.ReordenarMano();
+
+            Vector3 posFinal = nueva.transform.localPosition;
+            nueva.transform.localPosition = Vector3.zero;
+
+            nueva.AnimarRoboDesdeMazo(
+                game.mazo.transform,
+                game.manoJugador,
+                posFinal,
+                true
+            );
+
+            yield return new WaitForSeconds(0.15f);
         }
 
         game.ReordenarMano();
+        if (tm != null)
+            tm.HabilitarInputJugador();
     }
 
     private void MateLavado()
     {
         modoMateLavado = true;
-
-        panelOpciones.gameObject.SetActive(true);
+        MostrarPanelConTexto("Elegí una carta para cambiarla");
 
         foreach (Transform child in panelOpciones)
             Destroy(child.gameObject);
@@ -222,6 +260,7 @@ public class UI_Items : MonoBehaviour
         foreach (Carta c in game.manoActual)
         {
             GameObject ui = Instantiate(cartaUIPrefab_Mate, panelOpciones);
+            ui.transform.localScale = Vector3.one * 0.65f;
             ui.GetComponent<UI_Carta>().Configurar(c, this);
         }
     }
@@ -231,26 +270,65 @@ public class UI_Items : MonoBehaviour
         if (!modoMateLavado) return;
 
         modoMateLavado = false;
+        OcultarPanel();
+        StartCoroutine(DescartarYReponerMate(c));
+    }
 
+    private IEnumerator DescartarYReponerMate(Carta c)
+    {
         if (c.celdaActual != null)
             c.celdaActual.SetOccupied(null);
 
         game.manoActual.Remove(c);
+
+        yield return c.StartCoroutine(c.AnimarDescartar(Vector3.down));
         Destroy(c.gameObject);
+
+        yield return new WaitForSeconds(0.1f);
 
         Carta nueva = game.mazo.RobarCarta();
         nueva.transform.SetParent(game.manoJugador);
         nueva.enMano = true;
-        game.manoActual.Add(nueva);
         nueva.MostrarFrente();
+
+        game.manoActual.Add(nueva);
         game.ReordenarMano();
-        panelOpciones.gameObject.SetActive(false);
+
+        Vector3 posFinal = nueva.transform.localPosition;
+        nueva.transform.localPosition = Vector3.zero;
+
+        nueva.AnimarRoboDesdeMazo(
+            game.mazo.transform,
+            game.manoJugador,
+            posFinal,
+            true
+        );
     }
 
     private void MateFeo()
     {
-        FindFirstObjectByType<TurnManager>().ForzarFinTurnoJugador();
+        FindFirstObjectByType<TurnManager>()?.ForzarFinTurnoJugador();
+    }
+    #endregion
 
+    #region Panel opciones
+    private void MostrarPanelConTexto(string mensaje)
+    {
+        panelOpciones.gameObject.SetActive(true);
+
+        if (textoPanel != null)
+        {
+            textoPanel.text = mensaje;
+            textoPanel.gameObject.SetActive(true);
+        }
+    }
+
+    private void OcultarPanel()
+    {
+        panelOpciones.gameObject.SetActive(false);
+
+        if (textoPanel != null)
+            textoPanel.gameObject.SetActive(false);
     }
     #endregion
 }

@@ -304,21 +304,29 @@ public class Carta : MonoBehaviour
         Transform mazo,
         Transform mano,
         Vector3 posicionFinalLocal,
+        bool mostrarFrenteAlRobar,
         System.Action onFinish = null
     )
     {
         if (moverCoroutine != null)
             StopCoroutine(moverCoroutine);
 
-        moverCoroutine = StartCoroutine(RoboDesdeMazoCoroutine(
-            mazo, mano, posicionFinalLocal, onFinish
-        ));
+        moverCoroutine = StartCoroutine(
+            RoboDesdeMazoCoroutine(
+                mazo,
+                mano,
+                posicionFinalLocal,
+                mostrarFrenteAlRobar,
+                onFinish
+            )
+        );
     }
 
     private IEnumerator RoboDesdeMazoCoroutine(
         Transform mazo,
         Transform mano,
         Vector3 posicionFinalLocal,
+        bool mostrarFrenteAlRobar,
         System.Action onFinish
     )
     {
@@ -327,7 +335,10 @@ public class Carta : MonoBehaviour
 
         transform.SetParent(null, true);
         transform.position = mazo.position;
-        MostrarDorso();
+        if (mostrarFrenteAlRobar)
+            MostrarFrente();
+        else
+            MostrarDorso();
 
         Vector3 inicio = transform.position;
         Vector3 destino = mano.TransformPoint(posicionFinalLocal);
@@ -351,6 +362,23 @@ public class Carta : MonoBehaviour
         boxCollider.enabled = true;
 
         onFinish?.Invoke();
+    }
+
+    public IEnumerator AnimarDescartar(Vector3 direccion, float distancia = 1.5f, float duracion = 0.3f)
+    {
+        enAnimacion = true;
+        boxCollider.enabled = false;
+
+        Vector3 inicio = transform.position;
+        Vector3 destino = inicio + direccion * distancia;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duracion;
+            transform.position = Vector3.Lerp(inicio, destino, t);
+            yield return null;
+        }
     }
     #endregion
 }
