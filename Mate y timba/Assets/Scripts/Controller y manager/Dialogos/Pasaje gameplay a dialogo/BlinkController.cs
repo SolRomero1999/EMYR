@@ -13,6 +13,9 @@ public class BlinkController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Transform cameraTransform;
 
+    bool isBlinking;
+    Coroutine blinkCoroutine;
+
     void Awake()
     {
         Instance = this;
@@ -29,11 +32,15 @@ public class BlinkController : MonoBehaviour
 
     public void StartBlink(System.Action accion)
     {
-        StartCoroutine(BlinkCoroutine(accion));
+        if (isBlinking)
+            return; 
+
+        blinkCoroutine = StartCoroutine(BlinkCoroutine(accion));
     }
 
     IEnumerator BlinkCoroutine(System.Action accion)
     {
+        isBlinking = true;
         spriteRenderer.enabled = true;
 
         for (int i = 0; i < blinkFrames.Length; i++)
@@ -51,5 +58,6 @@ public class BlinkController : MonoBehaviour
         }
 
         spriteRenderer.enabled = false;
+        isBlinking = false;
     }
 }
