@@ -232,10 +232,19 @@ public class Carta : MonoBehaviour
         if (this is CartaComodin comodin && tablero != null)
             comodin.ConfigurarValorInicial(celda, tablero);
 
-        if (gc != null && gc.manoActual.Contains(this))
+        if (gc != null)
         {
-            gc.manoActual.Remove(this);
-            gc.ReordenarMano();
+            if (gc.manoActual.Contains(this))
+            {
+                gc.manoActual.Remove(this);
+                gc.ReordenarMano();
+            }
+
+            if (gc.manoIAActual.Contains(this))
+            {
+                gc.manoIAActual.Remove(this);
+                gc.ReordenarManoIA();
+            }
         }
 
         AplicarReglaEliminacion(celda);

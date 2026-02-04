@@ -37,6 +37,16 @@ public class DialogueManualAdvance : MonoBehaviour
     #endregion
 
     #region Unity
+    void Update()
+    {
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SkipToLastDialogue();
+        }
+    #endif
+    }
+
     private void Start()
     {
         continuarButton.onClick.AddListener(NextLine);
@@ -177,6 +187,19 @@ public class DialogueManualAdvance : MonoBehaviour
     private void MostrarLineaCompleta(string line)
     {
         dialogueText.text = ParseSpeakerAndColor(line);
+    }
+
+    private void SkipToLastDialogue()
+    {
+        if (lines == null || lines.Length == 0)
+            return;
+
+        if (isTyping && typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        index = lines.Length;
+        MostrarLineaCompleta(lines[lines.Length - 1]);
+        isTyping = false;
     }
     #endregion
 }

@@ -264,7 +264,6 @@ public class GameController : MonoBehaviour
 
         carta.ColocarEnCelda(celda);
         carta.MostrarFrente();
-        manoIAActual.Remove(carta);
 
         ScoreManager sm = FindFirstObjectByType<ScoreManager>();
         if (sm != null) sm.ActualizarPuntajes();
@@ -289,7 +288,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void ReordenarManoIA()
+    public void ReordenarManoIA()
     {
         float spacing = 1.5f;
         float totalWidth = (manoIAActual.Count - 1) * spacing;

@@ -5,6 +5,10 @@ public class MainMenuController : MonoBehaviour
 {
     public void PlayGame()
     {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("GrandsonScene");
     }
 }
+

@@ -50,6 +50,16 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Unity
+    void Update()
+    {
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SkipToLastDialogue();
+        }
+    #endif
+    }
+
     void Start()
     {
         continuarButton.onClick.AddListener(NextLine);
@@ -335,6 +345,21 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     bool JugadorPerdioAntes()
     {
         return PlayerPrefs.GetInt(KEY_JUGADOR_PERDIO_N3, 0) == 1;
+    }
+
+    void SkipToLastDialogue()
+    {
+        var currentLines = LineasActuales();
+
+        if (currentLines == null || currentLines.Length == 0)
+            return;
+
+        if (isTyping && typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        index = currentLines.Length;
+        MostrarLineaCompleta(currentLines[currentLines.Length - 1]);
+        isTyping = false;
     }
     #endregion
 }
