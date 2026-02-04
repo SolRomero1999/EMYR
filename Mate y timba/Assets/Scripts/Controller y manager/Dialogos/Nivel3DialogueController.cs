@@ -18,8 +18,11 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
 
     #region Diálogos
     [TextArea] public string[] introLines;
+    [TextArea] public string[] introTrasPerdidaLines;
     [TextArea] public string[] primeraEliminacionLines;
+    [TextArea] public string[] primeraEliminacionTrasPerdidaLines;
     [TextArea] public string[] primerComboLines;
+    [TextArea] public string[] primerComboTrasPerdidaLines;
     [TextArea] public string[] victoriaLines;
     [TextArea] public string[] derrotaLines;
 
@@ -34,16 +37,14 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Estado
+    const string KEY_JUGADOR_PERDIO_N3 = "JugadorPerdioNivel3";
     int index = 0;
     bool isTyping;
-
     bool enPrimeraEliminacion;
     bool enPrimerCombo;
     bool enDialogoFinal;
     bool esVictoria;
-
     string[] dialogoMateActual;
-
     Coroutine typingCoroutine;
     System.Action callbackFinal;
     #endregion
@@ -95,6 +96,9 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
 
     public void MostrarDialogoDerrota(System.Action alFinal)
     {
+        PlayerPrefs.SetInt(KEY_JUGADOR_PERDIO_N3, 1);
+        PlayerPrefs.Save();
+
         callbackFinal = alFinal;
         IniciarDialogoFinal(false);
     }
@@ -262,6 +266,8 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     #region Helpers
     string[] LineasActuales()
     {
+        bool perdioAntes = JugadorPerdioAntes();
+
         if (dialogoMateActual != null)
             return dialogoMateActual;
 
@@ -269,10 +275,23 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
             return esVictoria ? victoriaLines : derrotaLines;
 
         if (enPrimeraEliminacion)
+        {
+            if (perdioAntes && primeraEliminacionTrasPerdidaLines != null && primeraEliminacionTrasPerdidaLines.Length > 0)
+                return primeraEliminacionTrasPerdidaLines;
+
             return primeraEliminacionLines;
+        }
 
         if (enPrimerCombo)
+        {
+            if (perdioAntes && primerComboTrasPerdidaLines != null && primerComboTrasPerdidaLines.Length > 0)
+                return primerComboTrasPerdidaLines;
+
             return primerComboLines;
+        }
+
+        if (perdioAntes && introTrasPerdidaLines != null && introTrasPerdidaLines.Length > 0)
+            return introTrasPerdidaLines;
 
         return introLines;
     }
@@ -311,6 +330,11 @@ public class Nivel3DialogueController : MonoBehaviour, IResultadoDialogo
     void MostrarLineaCompleta(string line)
     {
         dialogueText.text = ParseSpeakerAndColor(line);
+    }
+
+    bool JugadorPerdioAntes()
+    {
+        return PlayerPrefs.GetInt(KEY_JUGADOR_PERDIO_N3, 0) == 1;
     }
     #endregion
 }

@@ -18,8 +18,11 @@ public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
 
     #region Diálogos
     [TextArea] public string[] introLines;
+    [TextArea] public string[] introTrasPerdidaLines;
     [TextArea] public string[] primeraEliminacionLines;
+    [TextArea] public string[] primeraEliminacionTrasPerdidaLines;
     [TextArea] public string[] intentoTrioLines;
+    [TextArea] public string[] intentoTrioTrasPerdidaLines;
     [TextArea] public string[] victoriaLines;
     [TextArea] public string[] derrotaLines;
     #endregion
@@ -29,14 +32,13 @@ public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Estado
+    const string KEY_JUGADOR_PERDIO_N2 = "JugadorPerdioNivel2";
     int index = 0;
     bool isTyping;
-
     bool enPrimeraEliminacion;
     bool enIntentoTrio;
     bool enDialogoFinal;
     bool esVictoria;
-
     Coroutine typingCoroutine;
     System.Action callbackFinal;
     #endregion
@@ -88,6 +90,9 @@ public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
 
     public void MostrarDialogoDerrota(System.Action alFinal)
     {
+        PlayerPrefs.SetInt(KEY_JUGADOR_PERDIO_N2, 1);
+        PlayerPrefs.Save();
+
         callbackFinal = alFinal;
         IniciarDialogoFinal(false);
     }
@@ -214,14 +219,30 @@ public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
     #region Helpers
     string[] LineasActuales()
     {
+        bool perdioAntes = JugadorPerdioAntes();
+
         if (enDialogoFinal)
             return esVictoria ? victoriaLines : derrotaLines;
 
         if (enPrimeraEliminacion)
+        {
+            if (perdioAntes && primeraEliminacionTrasPerdidaLines != null && primeraEliminacionTrasPerdidaLines.Length > 0)
+                return primeraEliminacionTrasPerdidaLines;
+
             return primeraEliminacionLines;
+        }
 
         if (enIntentoTrio)
+        {
+            if (perdioAntes && intentoTrioTrasPerdidaLines != null && intentoTrioTrasPerdidaLines.Length > 0)
+                return intentoTrioTrasPerdidaLines;
+
             return intentoTrioLines;
+        }
+
+        
+        if (perdioAntes && introTrasPerdidaLines != null && introTrasPerdidaLines.Length > 0)
+            return introTrasPerdidaLines;
 
         return introLines;
     }
@@ -259,6 +280,11 @@ public class Nivel2DialogueController : MonoBehaviour, IResultadoDialogo
     void MostrarLineaCompleta(string line)
     {
         dialogueText.text = ParseSpeakerAndColor(line);
+    }
+
+    bool JugadorPerdioAntes()
+    {
+        return PlayerPrefs.GetInt(KEY_JUGADOR_PERDIO_N2, 0) == 1;
     }
     #endregion
 }

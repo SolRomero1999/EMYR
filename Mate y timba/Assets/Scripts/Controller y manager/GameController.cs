@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
 
         bool esTutorial = ia is IA_Tuto;
 
-        float spacing = 1.2f;
+        float spacing = 1.4f;
         float totalWidth = (cantidad - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -154,7 +154,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        float spacing = 1.2f;
+        float spacing = 1.4f;
         float totalWidth = (cartasIA.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
 
@@ -195,7 +195,7 @@ public class GameController : MonoBehaviour
         manoActual.Add(robada);
         robada.enMano = true;
 
-        float spacing = 1.2f;
+        float spacing = 1.4f;
         float totalWidth = (manoActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
         Vector3 posicionFinal = new Vector3(
@@ -277,7 +277,7 @@ public class GameController : MonoBehaviour
     #region Organización de la mano
     public void ReordenarMano()
     {
-        float spacing = 1.2f;
+        float spacing = 1.4f;
         float totalWidth = (manoActual.Count - 1) * spacing;
         float startX = -totalWidth / 2f;
 

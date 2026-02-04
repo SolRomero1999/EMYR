@@ -17,7 +17,9 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
 
     #region Diálogos
     [TextArea] public string[] introLines;
+    [TextArea] public string[] introTrasPerdidaLines;
     [TextArea] public string[] iaAltasLines;
+    [TextArea] public string[] iaAltasTrasPerdidaLines;
     [TextArea] public string[] victoriaLines;
     [TextArea] public string[] derrotaLines;
     #endregion
@@ -27,13 +29,12 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     #endregion
 
     #region Estado
+    const string KEY_JUGADOR_PERDIO = "JugadorPerdioNivel1";
     int index = 0;
     bool isTyping;
-
     bool enDialogoAltas;
     bool enDialogoFinal;
     bool esVictoria;
-
     Coroutine typingCoroutine;
     System.Action callbackFinal;
     #endregion
@@ -78,6 +79,9 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
 
     public void MostrarDialogoDerrota(System.Action alFinal)
     {
+        PlayerPrefs.SetInt(KEY_JUGADOR_PERDIO, 1);
+        PlayerPrefs.Save();
+
         callbackFinal = alFinal;
         IniciarDialogoFinal(false);
     }
@@ -199,11 +203,21 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     #region Helpers
     string[] LineasActuales()
     {
+        bool perdioAntes = JugadorPerdioAntes();
+
         if (enDialogoFinal)
             return esVictoria ? victoriaLines : derrotaLines;
 
         if (enDialogoAltas)
+        {
+            if (perdioAntes && iaAltasTrasPerdidaLines != null && iaAltasTrasPerdidaLines.Length > 0)
+                return iaAltasTrasPerdidaLines;
+
             return iaAltasLines;
+        }
+
+        if (perdioAntes && introTrasPerdidaLines != null && introTrasPerdidaLines.Length > 0)
+            return introTrasPerdidaLines;
 
         return introLines;
     }
@@ -236,6 +250,11 @@ public class Nivel1DialogueController : MonoBehaviour, IResultadoDialogo
     void MostrarLineaCompleta(string line)
     {
         dialogueText.text = ParseSpeakerAndColor(line);
+    }
+
+    bool JugadorPerdioAntes()
+    {
+        return PlayerPrefs.GetInt(KEY_JUGADOR_PERDIO, 0) == 1;
     }
     #endregion
 }
